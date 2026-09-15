@@ -1,0 +1,17 @@
+{
+  "name": "vignesh-kumar-cloud-resume",
+  "version": "1.0.0",
+  "description": "Cloud Resume Portfolio with Serverless Hit Tracking and Qdrant RAG Assistant",
+  "scripts": {
+    "dev": "npx serve public -l 5000",
+    "build": "cd functions && npm install && npm run build",
+    "seed:qdrant": "cd functions && npm run seed:qdrant",
+    "test:e2e": "playwright test",
+    "deploy:vercel": "npx vercel --prod",
+    "deploy:firebase": "npx -y firebase-tools@latest deploy --only firestore,hosting"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.42.1",
+    "vercel": "^39.0.0"
+  }
+}

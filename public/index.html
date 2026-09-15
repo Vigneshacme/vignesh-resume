@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Vignesh Kumar E - Tech Lead, Senior Full-Stack Engineer, and Solution Architect Portfolio & Cloud Resume">
+  <title>Vignesh Kumar E | Tech Lead & Solution Architect</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="site-wrapper">
+    <!-- Navigation / Top Bar -->
+    <header class="top-nav">
+      <div class="container nav-content">
+        <div class="brand">
+          <span class="brand-code">&lt;VK /&gt;</span>
+          <span class="brand-name">Vignesh Kumar E</span>
+        </div>
+        <div class="nav-actions">
+          <!-- Live Visitor Counter Badge -->
+          <div class="counter-badge" id="visitor-counter" aria-label="Visitor Count" title="Live Serverless Hit Tracking via Firebase Cloud Functions & Firestore">
+            <span class="pulse-dot"></span>
+            <span class="counter-label">Resume Hits:</span>
+            <span class="counter-val" id="hit-count">...</span>
+          </div>
+          <button id="ai-chat-btn" class="btn-primary" aria-label="Ask AI Assistant">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10a9.96 9.96 0 0 1-4.78-1.21L2 22l1.22-5.18A9.96 9.96 0 0 1 2 12 10 10 0 0 1 12 2z"/>
+              <path d="M8 10h.01M12 10h.01M16 10h.01"/>
+            </svg>
+            <span>Ask Recruiter AI</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container hero-content">
+        <div class="hero-badge">
+          <span class="badge-status"></span> Open to International & Onsite Assignments
+        </div>
+        <h1 class="hero-title">
+          Vignesh Kumar E
+        </h1>
+        <p class="hero-subtitle">
+          <span class="highlight">Tech Lead</span> | 
+          <span class="highlight">Senior Full-Stack Engineer</span> | 
+          <span class="highlight">Solution Architect</span>
+        </p>
+        <p class="hero-location">
+          <svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+          Chennai, Tamil Nadu, India &nbsp;•&nbsp; 
+          <span class="cloud-url-badge" id="app-url-info">Hosted on Firebase Serverless</span>
+        </p>
+        <div class="hero-summary">
+          <p>
+            Tech Lead and Full-Stack Architect with <strong>10+ years</strong> of enterprise experience engineering distributed, 
+            high-performance web systems using <strong>.NET Core, Angular, Node.js, SQL Server, and AWS</strong>. Proven track record 
+            in API design, microservices, complex asynchronous processing, and SQL database tuning. Demonstrates hands-on leadership 
+            across CI/CD automation, cloud architecture, security, and developer mentoring. Actively integrating <strong>AI Agents, 
+            Model Context Protocol (MCP), and Retrieval-Augmented Generation (RAG)</strong> into modern enterprise automation workflows.
+          </p>
+        </div>
+        <div class="hero-cta-group">
+          <a href="#experience" class="btn-secondary">View Work Experience</a>
+          <a href="#architecture" class="btn-secondary">Architecture Highlights</a>
+          <button class="btn-accent" onclick="document.getElementById('ai-chat-btn').click()">Chat with Resume Bot (Qdrant RAG)</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content Container -->
+    <main class="container main-layout">
+
+      <!-- Technical Skills Matrix -->
+      <section id="skills" class="resume-card">
+        <div class="card-header">
+          <div class="icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/>
+            </svg>
+          </div>
+          <h2>Technical Skills & Architecture</h2>
+        </div>
+        <div class="skills-grid">
+          <div class="skill-category">
+            <div class="category-title">Languages & Web</div>
+            <div class="tags">
+              <span class="tag">C#</span>
+              <span class="tag">TypeScript</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">SQL</span>
+              <span class="tag">HTML5</span>
+              <span class="tag">CSS3</span>
+              <span class="tag">JSON</span>
+            </div>
+          </div>
+
+          <div class="skill-category">
+            <div class="category-title">Backend Frameworks</div>
+            <div class="tags">
+              <span class="tag">ASP.NET Core</span>
+              <span class="tag">Web API</span>
+              <span class="tag">EF Core</span>
+              <span class="tag">Node.js</span>
+              <span class="tag">Express.js</span>
+              <span class="tag">WCF</span>
+              <span class="tag highlight-tag">YARP API Gateway</span>
+            </div>
+          </div>
+
+          <div class="skill-category">
+            <div class="category-title">Frontend Frameworks</div>
+            <div class="tags">
+              <span class="tag">Angular</span>
+              <span class="tag">React Native</span>
+              <span class="tag">PWA</span>
+              <span class="tag">RxJS</span>
+            </div>
+          </div>
+
+          <div class="skill-category">
+            <div class="category-title">Cloud & DevOps</div>
+            <div class="tags">
+              <span class="tag">AWS (EC2, ALB, RDS, WAF, S3)</span>
+              <span class="tag">Google Firebase</span>
+              <span class="tag">Docker</span>
+              <span class="tag">GitLab CI/CD</span>
+              <span class="tag">GitLab Runner</span>
+              <span class="tag">IIS</span>
+              <span class="tag">Linux/Ubuntu</span>
+              <span class="tag">PM2</span>
+            </div>
+          </div>
+
+          <div class="skill-category">
+            <div class="category-title">Databases & Query Tuning</div>
+            <div class="tags">
+              <span class="tag">SQL Server</span>
+              <span class="tag">MySQL</span>
+              <span class="tag">Oracle</span>
+              <span class="tag highlight-tag">Query Store</span>
+              <span class="tag highlight-tag">Execution Plans</span>
+              <span class="tag">Indexing Strategies</span>
+              <span class="tag">Concurrency & Locking</span>
+            </div>
+          </div>
+
+          <div class="skill-category">
+            <div class="category-title">Messaging & Distributed Systems</div>
+            <div class="tags">
+              <span class="tag">RabbitMQ</span>
+              <span class="tag">AWS SQS</span>
+              <span class="tag">Redis</span>
+              <span class="tag">SignalR</span>
+              <span class="tag">WebSockets</span>
+              <span class="tag">Async Processing</span>
+              <span class="tag">DLQ (Dead Letter Queues)</span>
+            </div>
+          </div>
+
+          <div class="skill-category">
+            <div class="category-title">AI & Automation</div>
+            <div class="tags">
+              <span class="tag highlight-tag">AI Agents</span>
+              <span class="tag highlight-tag">Model Context Protocol (MCP)</span>
+              <span class="tag highlight-tag">RAG Architecture</span>
+              <span class="tag highlight-tag">Qdrant / Vector Databases</span>
+              <span class="tag">LangGraph concepts</span>
+              <span class="tag">Playwright Automation</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Professional Experience -->
+      <section id="experience" class="resume-card">
+        <div class="card-header">
+          <div class="icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+            </svg>
+          </div>
+          <h2>Professional Experience</h2>
+        </div>
+
+        <div class="timeline">
+          <!-- Role 1 -->
+          <article class="timeline-item">
+            <div class="timeline-meta">
+              <h3 class="role-title">Tech Lead</h3>
+              <span class="company-name">alfaTKG</span>
+              <span class="period-badge">2022 – Present</span>
+            </div>
+            <ul class="bullet-list">
+              <li>
+                <strong>Architectural & Technical Leadership:</strong> Lead cross-functional engineering teams in delivering flagship 
+                manufacturing products (<em>JQMS, PTE, AlfaDock</em>) utilizing .NET, Angular, Node.js, and SQL Server.
+              </li>
+              <li>
+                <strong>Scalable Async Infrastructure:</strong> Designed a queue-based processing engine using <strong>RabbitMQ, AWS SQS</strong>, 
+                and containerized .NET Worker Services to decouple heavy file/thumbnail workloads from API handlers, enabling independent horizontal scaling.
+              </li>
+              <li>
+                <strong>Database & Query Tuning:</strong> Optimized enterprise SQL Server instances by analyzing Query Store, execution plans, 
+                locking/blocking, and index strategies to resolve severe CPU bottlenecks under high concurrency.
+              </li>
+              <li>
+                <strong>Cloud & CI/CD Engineering:</strong> Architected AWS deployments using EC2, ALB, RDS, and WAF with automated GitLab CI/CD 
+                pipelines driving automated deployments to multi-tenant IIS environments.
+              </li>
+              <li>
+                <strong>API & System Security:</strong> Implemented YARP API Gateway patterns, JWT authentication, distributed caching via Redis, 
+                and rate-limiting to protect mission-critical endpoints.
+              </li>
+              <li>
+                <strong>AI Integration R&D:</strong> Driving technical initiatives to integrate AI Agents, RAG architecture, vector databases 
+                (<strong>Qdrant</strong>), and Model Context Protocol (MCP) into core enterprise workflows.
+              </li>
+            </ul>
+          </article>
+
+          <!-- Role 2 -->
+          <article class="timeline-item">
+            <div class="timeline-meta">
+              <h3 class="role-title">Software Development Engineer</h3>
+              <span class="company-name">alfaTKG</span>
+              <span class="period-badge">2015 – 2018</span>
+            </div>
+            <ul class="bullet-list">
+              <li>
+                <strong>Full-Stack Engineering:</strong> Developed business-critical web applications and microservices using C#, .NET Core, SQL Server, and modern JavaScript.
+              </li>
+              <li>
+                <strong>Integration & Lifecycle:</strong> Authored modular RESTful APIs, optimized database access queries, and provided tier-3 production incident triage.
+              </li>
+            </ul>
+          </article>
+
+          <!-- Role 3 -->
+          <article class="timeline-item">
+            <div class="timeline-meta">
+              <h3 class="role-title">Software Engineer</h3>
+              <span class="company-name">Sirpi</span>
+              <span class="period-badge">2013 – 2015</span>
+            </div>
+            <ul class="bullet-list">
+              <li>
+                <strong>Core Development:</strong> Engineered foundational backend APIs and relational database structures using C# and SQL Server across the full SDLC.
+              </li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <!-- Key Architecture Highlights -->
+      <section id="architecture" class="resume-card highlight-card">
+        <div class="card-header">
+          <div class="icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+              <polyline points="2 17 12 22 22 17"/>
+              <polyline points="2 12 12 17 22 12"/>
+            </svg>
+          </div>
+          <h2>Key Architecture & Engineering Highlights</h2>
+        </div>
+
+        <div class="highlights-grid">
+          <div class="highlight-box">
+            <div class="highlight-title">Decoupled Asynchronous Processing</div>
+            <p>
+              Replaced legacy synchronous handlers with <strong>RabbitMQ/Redis</strong> event buses, dramatically reducing API latency 
+              for heavy document payloads by eliminating polling patterns via <strong>SignalR/WebSockets</strong>.
+            </p>
+          </div>
+          <div class="highlight-box">
+            <div class="highlight-title">High-Availability Cloud Design</div>
+            <p>
+              Managed zero-downtime application deployments behind <strong>AWS Application Load Balancers (ALB)</strong> with multi-AZ 
+              RDS database replication and resilience failover.
+            </p>
+          </div>
+          <div class="highlight-box">
+            <div class="highlight-title">Serverless Hit Tracking (Cloud Resume Challenge)</div>
+            <p>
+              This portfolio runs on <strong>Vercel Edge Hosting</strong> with a serverless TypeScript 
+              <strong>API function</strong> using atomic <code>FieldValue.increment(1)</code> on <strong>Cloud Firestore</strong>.
+            </p>
+          </div>
+
+          <div class="highlight-box">
+            <div class="highlight-title">RAG AI Assistant with Qdrant</div>
+            <p>
+              Integrated vector search on <strong>Qdrant</strong> vector database. Recruiters can query technical architecture, 
+              benchmarks, and project history with grounded AI generation.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- My Architecture Section -->
+      <section id="my-architecture" class="resume-card arch-card">
+        <div class="card-header">
+          <div class="icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+              <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+            </svg>
+          </div>
+          <h2>My Architecture — Cloud Resume System</h2>
+        </div>
+
+        <p class="arch-intro">
+          This portfolio itself is a live demonstration of modern serverless architecture. Below is the full system design —
+          from the browser hitting the Vercel CDN edge to atomic Firestore persistence and Qdrant vector search powering the AI recruiter assistant.
+        </p>
+
+        <!-- Architecture Diagram -->
+        <div class="arch-diagram">
+
+          <!-- Row 1: Client -->
+          <div class="arch-row">
+            <div class="arch-node client-node">
+              <div class="arch-node-icon">🌐</div>
+              <div class="arch-node-title">Recruiter Browser</div>
+              <div class="arch-node-sub">Opens resume URL</div>
+            </div>
+          </div>
+
+          <div class="arch-arrow-down">
+            <span class="arch-arrow-label">HTTPS request to Vercel CDN</span>
+            <div class="arch-arrow-line"></div>
+          </div>
+
+          <!-- Row 2: Vercel Edge -->
+          <div class="arch-row">
+            <div class="arch-node edge-node">
+              <div class="arch-node-icon">⚡</div>
+              <div class="arch-node-title">Vercel Edge Network</div>
+              <div class="arch-node-sub">Global CDN · Free SSL · Auto-Deploy</div>
+              <div class="arch-node-url" id="live-url-badge">vignesh-cloud-resume-vk.web.app</div>
+            </div>
+          </div>
+
+          <!-- Row 3: Split into 3 paths -->
+          <div class="arch-split-label">Routes traffic to:</div>
+          <div class="arch-row arch-row-3">
+
+            <!-- Path 1: Static -->
+            <div class="arch-path">
+              <div class="arch-path-arrow">↓</div>
+              <div class="arch-node static-node">
+                <div class="arch-node-icon">📄</div>
+                <div class="arch-node-title">Static Assets</div>
+                <div class="arch-node-sub">index.html · styles.css · app.js</div>
+              </div>
+            </div>
+
+            <!-- Path 2: Hit Tracker -->
+            <div class="arch-path">
+              <div class="arch-path-arrow">↓</div>
+              <div class="arch-node fn-node">
+                <div class="arch-node-icon">🔢</div>
+                <div class="arch-node-title">GET /api/track-hit</div>
+                <div class="arch-node-sub">Vercel Serverless Fn (Node 20)</div>
+              </div>
+              <div class="arch-path-arrow">↓</div>
+              <div class="arch-node db-node">
+                <div class="arch-node-icon">🗄️</div>
+                <div class="arch-node-title">Cloud Firestore</div>
+                <div class="arch-node-sub">FieldValue.increment(1) · Atomic · Free tier</div>
+              </div>
+            </div>
+
+            <!-- Path 3: AI Chat -->
+            <div class="arch-path">
+              <div class="arch-path-arrow">↓</div>
+              <div class="arch-node fn-node">
+                <div class="arch-node-icon">🤖</div>
+                <div class="arch-node-title">POST /api/chat</div>
+                <div class="arch-node-sub">Vercel Serverless Fn (Node 20)</div>
+              </div>
+              <div class="arch-path-arrow">↓</div>
+              <div class="arch-node vector-node">
+                <div class="arch-node-icon">🔍</div>
+                <div class="arch-node-title">Qdrant Cloud</div>
+                <div class="arch-node-sub">Vector search · Cosine similarity · 768-dim</div>
+              </div>
+              <div class="arch-path-arrow">↓</div>
+              <div class="arch-node ai-node">
+                <div class="arch-node-icon">✨</div>
+                <div class="arch-node-title">Grounded Answer</div>
+                <div class="arch-node-sub">Context-augmented · RAG pipeline</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Tech Stack Legend -->
+        <div class="arch-legend">
+          <div class="legend-title">Full Stack at a Glance</div>
+          <div class="legend-grid">
+            <div class="legend-item">
+              <span class="legend-dot dot-edge"></span>
+              <span><strong>Hosting:</strong> Vercel CDN + Firebase Hosting (static fallback)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot dot-fn"></span>
+              <span><strong>Backend:</strong> Vercel Serverless Functions (TypeScript / Node 20)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot dot-db"></span>
+              <span><strong>Database:</strong> Google Cloud Firestore (atomic hit counter)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot dot-vector"></span>
+              <span><strong>Vector DB:</strong> Qdrant Cloud (resume knowledge base · cosine similarity)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot dot-ai"></span>
+              <span><strong>AI Pattern:</strong> RAG (Retrieval-Augmented Generation)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot dot-edge"></span>
+              <span><strong>CI/CD:</strong> GitHub Actions → Vercel auto-deploy on push to main</span>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container footer-content">
+        <p>© 2026 Vignesh Kumar E. Built with modern serverless architecture & Qdrant Vector Search.</p>
+        <p class="hosting-note">Powered by Firebase Cloud Functions & Cloud Firestore.</p>
+      </div>
+    </footer>
+
+    <!-- AI Recruiter Chatbot Drawer / Modal -->
+    <aside class="chat-drawer" id="chat-drawer" aria-hidden="true" role="dialog" aria-labelledby="chat-title">
+      <div class="chat-header">
+        <div class="chat-title-group">
+          <div class="chat-avatar">AI</div>
+          <div>
+            <h3 id="chat-title">Vignesh AI Assistant</h3>
+            <span class="chat-sub">Powered by Qdrant Vector DB & RAG</span>
+          </div>
+        </div>
+        <button class="chat-close" id="chat-close-btn" aria-label="Close chat">&times;</button>
+      </div>
+
+      <div class="chat-body" id="chat-messages">
+        <div class="chat-bubble bot">
+          <p>Hello! I am Vignesh's AI Portfolio Assistant. I can answer questions about his 10+ years of Tech Lead experience, .NET & cloud architectures, SQL Server tuning, or AI integrations.</p>
+          <div class="suggested-queries">
+            <button class="suggestion-chip" onclick="askQuestion('What is Vignesh\'s experience with asynchronous processing?')">Async Processing?</button>
+            <button class="suggestion-chip" onclick="askQuestion('How did Vignesh tune SQL Server performance at alfaTKG?')">SQL Server Tuning?</button>
+            <button class="suggestion-chip" onclick="askQuestion('What are his core skills in Cloud and AI?')">Cloud & AI Skills?</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-footer">
+        <form id="chat-form">
+          <input type="text" id="chat-input" placeholder="Ask about Vignesh's background..." autocomplete="off" required>
+          <button type="submit" id="chat-send-btn" aria-label="Send message">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </form>
+      </div>
+    </aside>
+    <div class="chat-overlay" id="chat-overlay"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
