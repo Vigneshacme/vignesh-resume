@@ -1,77 +1,124 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { QdrantClient } from '@qdrant/js-client-rest';
+const https = require('https');
 
+const QDRANT_HOST = '13ef6f67-e1be-4ed6-8f7b-2ae89c8eaee5.eu-central-1-0.aws.cloud.qdrant.io';
+const QDRANT_PORT = 6333;
+const QDRANT_API_KEY = process.env.QDRANT_API_KEY;
 const COLLECTION_NAME = 'resume_knowledge';
 const VECTOR_DIMENSION = 768;
 
-// Initialize Qdrant client from Vercel environment variables
-function getQdrantClient(): QdrantClient {
-  const url = process.env.QDRANT_URL || 'http://127.0.0.1:6333';
-  const apiKey = process.env.QDRANT_API_KEY || undefined;
-  return new QdrantClient({ url, apiKey, checkCompatibility: false });
-}
-
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // CORS headers
+module.exports = async function handler(req, res) {
+  // Always handle CORS and OPTIONS preflight
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, api-key'
+  );
 
-  if (req.method === 'OPTIONS') return res.status(200).end();
-
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method Not Allowed. Use POST with { question: string }' });
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
   }
 
-  const question = (req.body?.question ?? '').trim();
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method Not Allowed. Use POST' });
+  }
+
+  // Parse body safely
+  let body = req.body;
+  if (typeof body === 'string') {
+    try {
+      body = JSON.parse(body);
+    } catch (e) {}
+  }
+  const question = (body?.question || '').trim();
   if (!question) {
-    return res.status(400).json({ error: 'Missing "question" field in request body' });
+    return res.status(400).json({ error: 'Missing question parameter' });
   }
 
   try {
-    // 1. Generate a deterministic embedding vector for the query
+    // 1. Generate deterministic 768-dim query embedding
     const queryVector = generateEmbeddingVector(question);
 
-    // 2. Search Qdrant for the top matching resume knowledge chunks
-    const client = getQdrantClient();
-    const results = await client.search(COLLECTION_NAME, {
-      vector: queryVector,
+    // 2. Query Qdrant Cloud via native HTTPS (Zero-dependency)
+    const qdrantResults = await searchQdrant(queryVector);
+
+    if (qdrantResults && qdrantResults.length > 0) {
+      const top = qdrantResults[0];
+      const payload = top.payload || {};
+      const sources = qdrantResults.map((r) => r.payload?.title || 'Verified Resume');
+
+      return res.status(200).json({
+        answer: `Based on Vignesh's verified experience (${payload.title}):\n\n${payload.content}`,
+        sources: sources,
+        similarityScore: top.score,
+        engine: 'qdrant-cloud-rag',
+      });
+    }
+
+    return res.status(200).json({
+      answer: generateFallbackAnswer(question),
+      sources: ['Tech Lead Resume & Cloud Strategy'],
+      engine: 'grounded-knowledge-base',
+    });
+  } catch (error) {
+    console.error('[chat] Search error:', error);
+    return res.status(200).json({
+      answer: generateFallbackAnswer(question),
+      sources: ['Tech Lead Resume & Cloud Strategy'],
+      engine: 'grounded-knowledge-base',
+    });
+  }
+};
+
+function searchQdrant(vector) {
+  return new Promise((resolve) => {
+    const postData = JSON.stringify({
+      vector: vector,
       limit: 3,
       with_payload: true,
     });
 
-    if (results.length > 0) {
-      const top = results[0];
-      const payload = top.payload as { title: string; content: string; category: string; tags: string[] };
-      const sources = results.map((r) => (r.payload as { title: string }).title);
+    const options = {
+      hostname: QDRANT_HOST,
+      port: QDRANT_PORT,
+      path: `/collections/${COLLECTION_NAME}/points/search`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'api-key': QDRANT_API_KEY,
+        'Content-Length': Buffer.byteLength(postData),
+      },
+      timeout: 5000,
+    };
 
-      return res.status(200).json({
-        answer: `Based on Vignesh's verified portfolio data (${payload.title}):\n\n${payload.content}`,
-        sources,
-        similarityScore: top.score,
-        engine: 'qdrant-rag',
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => {
+        data += chunk;
       });
-    }
+      res.on('end', () => {
+        try {
+          const parsed = JSON.parse(data);
+          resolve(parsed.result || []);
+        } catch (e) {
+          resolve([]);
+        }
+      });
+    });
 
-    // 3. Grounded fallback if Qdrant is not yet seeded
-    return res.status(200).json({
-      answer: generateFallbackAnswer(question),
-      sources: ['Resume & Cloud Strategy Document'],
-      engine: 'grounded-knowledge-base',
+    req.on('error', () => resolve([]));
+    req.on('timeout', () => {
+      req.destroy();
+      resolve([]);
     });
-  } catch (error: unknown) {
-    const msg = error instanceof Error ? error.message : 'unknown';
-    console.warn('[chat] Qdrant unavailable, using grounded fallback:', msg);
-    return res.status(200).json({
-      answer: generateFallbackAnswer(question),
-      sources: ['Resume & Cloud Strategy Document'],
-      engine: 'grounded-knowledge-base',
-      note: 'Set QDRANT_URL and QDRANT_API_KEY in Vercel env vars to enable full vector search.',
-    });
-  }
+
+    req.write(postData);
+    req.end();
+  });
 }
 
-function generateEmbeddingVector(text: string): number[] {
+function generateEmbeddingVector(text) {
   const vector = new Array(VECTOR_DIMENSION).fill(0);
   const normalized = text.toLowerCase();
   for (let i = 0; i < normalized.length; i++) {
@@ -83,7 +130,7 @@ function generateEmbeddingVector(text: string): number[] {
   return vector.map((v) => v / norm);
 }
 
-function generateFallbackAnswer(question: string): string {
+function generateFallbackAnswer(question) {
   const q = question.toLowerCase();
   if (q.includes('async') || q.includes('queue') || q.includes('rabbitmq') || q.includes('sqs')) {
     return 'At alfaTKG (Tech Lead), Vignesh architected a high-throughput queue processing engine using RabbitMQ, AWS SQS, and containerized .NET Worker Services. This decoupled heavy file/thumbnail workloads from API handlers, enabling horizontal scaling and replacing polling with SignalR/WebSockets for real-time feedback.';

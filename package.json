@@ -4,11 +4,8 @@
   "description": "Cloud Resume Portfolio with Serverless Hit Tracking and Qdrant RAG Assistant",
   "scripts": {
     "dev": "npx serve public -l 5000",
-    "build": "cd functions && npm install && npm run build",
     "seed:qdrant": "cd functions && npm run seed:qdrant",
-    "test:e2e": "playwright test",
-    "deploy:vercel": "npx vercel --prod",
-    "deploy:firebase": "npx -y firebase-tools@latest deploy --only firestore,hosting"
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@qdrant/js-client-rest": "^1.12.0",
