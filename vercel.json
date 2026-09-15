@@ -1,11 +1,6 @@
 {
   "version": 2,
   "outputDirectory": "public",
-  "functions": {
-    "api/**/*.ts": {
-      "runtime": "@vercel/node@5"
-    }
-  },
   "rewrites": [
     { "source": "/api/track-hit", "destination": "/api/track-hit" },
     { "source": "/api/chat", "destination": "/api/chat" },
