@@ -2,22 +2,9 @@
   "version": 2,
   "outputDirectory": "public",
   "rewrites": [
-    { "source": "/api/track-hit", "destination": "/api/track-hit" },
-    { "source": "/api/chat", "destination": "/api/chat" },
-    { "source": "/(.*)", "destination": "/index.html" }
-  ],
-  "headers": [
     {
-      "source": "/api/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-store" }
-      ]
-    },
-    {
-      "source": "/(.*\\.js|.*\\.css)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=604800" }
-      ]
+      "source": "/((?!api/.*).*)",
+      "destination": "/index.html"
     }
   ]
 }

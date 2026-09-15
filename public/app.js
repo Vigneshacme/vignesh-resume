@@ -37,26 +37,27 @@ async function initHitTracker() {
   if (!countEl) return;
 
   try {
-    // Asynchronous call to Firebase Cloud Function endpoint
-    const response = await fetch('/api/track-hit', {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json'
-      }
-    });
+    let response = await fetch('/api/track-hit', { headers: { 'Accept': 'application/json' } });
+    if (!response.ok) {
+      response = await fetch('https://vignesh-resume.vercel.app/api/track-hit', { headers: { 'Accept': 'application/json' } });
+    }
 
     if (response.ok) {
       const data = await response.json();
       animateCounter(countEl, data.count || 1);
-    } else {
-      // Graceful fallback for static preview when backend is not running
-      handleLocalHitCounter(countEl);
+      return;
     }
   } catch (err) {
-    // Network error or local file preview
-    console.warn('[HitTracker] Backend unavailable, running client fallback:', err);
-    handleLocalHitCounter(countEl);
+    try {
+      const vRes = await fetch('https://vignesh-resume.vercel.app/api/track-hit', { headers: { 'Accept': 'application/json' } });
+      if (vRes.ok) {
+        const data = await vRes.json();
+        animateCounter(countEl, data.count || 1);
+        return;
+      }
+    } catch (e) {}
   }
+  handleLocalHitCounter(countEl);
 }
 
 function handleLocalHitCounter(element) {
@@ -138,31 +139,42 @@ function initChatDrawer() {
     appendMessage(messagesContainer, 'user', query);
     input.value = '';
 
-    // Append loading indicator
-    const loadingId = appendLoadingIndicator(messagesContainer);
-
+    let data = null;
     try {
-      const response = await fetch('/api/chat', {
+      let response = await fetch('/api/chat', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: query })
       });
 
-      removeLoadingIndicator(loadingId);
+      // If on Firebase where /api/chat is 404, fallback to Vercel serverless backend
+      if (!response.ok) {
+        response = await fetch('https://vignesh-resume.vercel.app/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question: query })
+        });
+      }
 
       if (response.ok) {
-        const data = await response.json();
-        appendMessage(messagesContainer, 'bot', data.answer, data.sources);
-      } else {
-        // Fallback response with grounded knowledge about Vignesh
-        const fallbackAnswer = generateClientFallbackAnswer(query);
-        appendMessage(messagesContainer, 'bot', fallbackAnswer);
+        data = await response.json();
       }
     } catch (error) {
-      removeLoadingIndicator(loadingId);
-      console.warn('[AIChat] API unavailable, using grounded local knowledge:', error);
+      try {
+        const vRes = await fetch('https://vignesh-resume.vercel.app/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question: query })
+        });
+        if (vRes.ok) data = await vRes.json();
+      } catch (e) {}
+    }
+
+    removeLoadingIndicator(loadingId);
+
+    if (data && data.answer) {
+      appendMessage(messagesContainer, 'bot', data.answer, data.sources);
+    } else {
       const fallbackAnswer = generateClientFallbackAnswer(query);
       appendMessage(messagesContainer, 'bot', fallbackAnswer);
     }
