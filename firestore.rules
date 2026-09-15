@@ -1,0 +1,18 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Visitor tracking stats document
+    match /stats/visitors {
+      // Allow public read of visitor count
+      allow read: if true;
+      // Disallow direct client writes to prevent fraud or counter manipulation.
+      // All increments must go through the Firebase Cloud Function via Admin SDK.
+      allow write: if false;
+    }
+
+    // Default deny for all other collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

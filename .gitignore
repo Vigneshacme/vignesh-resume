@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+functions/node_modules/
+api/node_modules/
+
+# Build outputs
+functions/lib/
+.vercel/
+
+# Firebase
+firebase-debug.log
+.firebase/
+
+# Environment files - NEVER commit these
+.env
+.env.local
+.env.production
+functions/.env
+
+# Terraform state
+terraform/.terraform/
+terraform/*.tfstate
+terraform/*.tfstate.backup
+
+# Test results
+playwright-report/
+test-results/
+
+# OS
+.DS_Store
+Thumbs.db
