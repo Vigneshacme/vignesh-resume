@@ -10,7 +10,30 @@ document.addEventListener('DOMContentLoaded', () => {
   initEnvironmentInfo();
   initHitTracker();
   initChatDrawer();
+  initArchToggle();
 });
+
+function initArchToggle() {
+  const btn = document.getElementById('toggle-arch-btn');
+  const section = document.getElementById('my-architecture');
+  if (!btn || !section) return;
+
+  btn.addEventListener('click', () => {
+    const isHidden = section.style.display === 'none' || !section.style.display;
+    if (isHidden) {
+      section.style.display = 'block';
+      btn.setAttribute('aria-expanded', 'true');
+      const span = btn.querySelector('span');
+      if (span) span.textContent = 'Hide Architecture Plan';
+      section.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      section.style.display = 'none';
+      btn.setAttribute('aria-expanded', 'false');
+      const span = btn.querySelector('span');
+      if (span) span.textContent = 'View Architecture Plan';
+    }
+  });
+}
 
 /* --------------------------------------------------------------------------
    1. Environment Info
