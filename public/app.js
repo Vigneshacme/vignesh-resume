@@ -62,7 +62,7 @@ async function initHitTracker() {
   try {
     let response = await fetch('/api/track-hit', { headers: { 'Accept': 'application/json' } });
     if (!response.ok) {
-      response = await fetch('https://vignesh-resume.vercel.app/api/track-hit', { headers: { 'Accept': 'application/json' } });
+      response = await fetch('https://vignesh-resume-chi.vercel.app/api/track-hit', { headers: { 'Accept': 'application/json' } });
     }
 
     if (response.ok) {
@@ -72,7 +72,7 @@ async function initHitTracker() {
     }
   } catch (err) {
     try {
-      const vRes = await fetch('https://vignesh-resume.vercel.app/api/track-hit', { headers: { 'Accept': 'application/json' } });
+      const vRes = await fetch('https://vignesh-resume-chi.vercel.app/api/track-hit', { headers: { 'Accept': 'application/json' } });
       if (vRes.ok) {
         const data = await vRes.json();
         animateCounter(countEl, data.count || 1);
@@ -172,7 +172,7 @@ function initChatDrawer() {
 
       // If on Firebase where /api/chat is 404, fallback to Vercel serverless backend
       if (!response.ok) {
-        response = await fetch('https://vignesh-resume.vercel.app/api/chat', {
+        response = await fetch('https://vignesh-resume-chi.vercel.app/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ question: query })
@@ -184,7 +184,7 @@ function initChatDrawer() {
       }
     } catch (error) {
       try {
-        const vRes = await fetch('https://vignesh-resume.vercel.app/api/chat', {
+        const vRes = await fetch('https://vignesh-resume-chi.vercel.app/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ question: query })
