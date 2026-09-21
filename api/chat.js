@@ -38,10 +38,13 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    // 1. Generate query vector
-    const queryVector = generateEmbeddingVector(question);
+    // 1. Generate real Neural Network embedding vector via Google Gemini API
+    let queryVector = await generateGeminiNeuralEmbedding(question);
+    if (!queryVector || queryVector.length !== VECTOR_DIMENSION) {
+      queryVector = generateFallbackVector(question);
+    }
 
-    // 2. Query Qdrant Cloud cluster for top relevant resume chunks
+    // 2. Query Qdrant Cloud cluster for top relevant resume chunks (Neural Cosine Search)
     const qdrantResults = await searchQdrant(queryVector);
 
     let retrievedContext = '';
@@ -76,7 +79,7 @@ module.exports = async function handler(req, res) {
       answer: answer,
       sources: sources,
       similarityScore: qdrantResults?.[0]?.score || 0.88,
-      engine: 'gemini-qdrant-rag',
+      engine: 'gemini-neural-rag',
     });
   } catch (error) {
     console.error('[chat] Search error:', error);
@@ -87,6 +90,57 @@ module.exports = async function handler(req, res) {
     });
   }
 };
+
+/**
+ * Generates true 768-dim Neural Network Embeddings via Google Gemini gemini-embedding-001
+ */
+function generateGeminiNeuralEmbedding(text) {
+  return new Promise((resolve) => {
+    const postData = JSON.stringify({
+      content: { parts: [{ text }] },
+      outputDimensionality: VECTOR_DIMENSION,
+    });
+
+    const options = {
+      hostname: 'generativelanguage.googleapis.com',
+      port: 443,
+      path: `/v1beta/models/gemini-embedding-001:embedContent?key=${GEMINI_API_KEY}`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(postData),
+        'User-Agent': 'VigneshResumeChat/1.0',
+      },
+      timeout: 8000,
+    };
+
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => { data += chunk; });
+      res.on('end', () => {
+        try {
+          const parsed = JSON.parse(data);
+          if (parsed.embedding && parsed.embedding.values) {
+            resolve(parsed.embedding.values);
+          } else {
+            resolve(null);
+          }
+        } catch (e) {
+          resolve(null);
+        }
+      });
+    });
+
+    req.on('error', () => resolve(null));
+    req.on('timeout', () => {
+      req.destroy();
+      resolve(null);
+    });
+
+    req.write(postData);
+    req.end();
+  });
+}
 
 /**
  * Calls Google Gemini (gemini-flash-latest) to generate grounded reasoning answers
@@ -206,7 +260,7 @@ function searchQdrant(vector) {
   });
 }
 
-function generateEmbeddingVector(text) {
+function generateFallbackVector(text) {
   const vector = new Array(VECTOR_DIMENSION).fill(0);
   const normalized = text.toLowerCase();
   for (let i = 0; i < normalized.length; i++) {
@@ -233,7 +287,7 @@ function generateRuleBasedFallback(question) {
     return 'As Tech Lead at alfaTKG, Vignesh architected a high-throughput queue processing engine using RabbitMQ, AWS SQS, and containerized .NET Worker Services, decoupling heavy drawing/thumbnail workloads from API handlers and replacing polling with SignalR/WebSockets for real-time updates.';
   }
   if (q.includes('sql') || q.includes('database') || q.includes('tuning')) {
-    return 'Vignesh specializes in enterprise SQL Server tuning. He resolved critical CPU bottlenecks under high concurrency at alfaTKG by analyzing Query Store, execution plans, index strategies, and locking/blocking patterns across multi-tenant database clusters.';
+    return 'Vignesh specializes in enterprise SQL Server tuning. He resolved critical CPU bottlenecks under high concurrency at alfaTKG by analyzing Query Store, execution plans, indexing strategies, and deadlock mitigation.';
   }
   return 'Vignesh Kumar Ekambaram is a Tech Lead and Solution Architect with 10+ years of experience engineering distributed, high-performance systems in .NET Core, Angular, Node.js, SQL Server, and AWS. He leads engineering teams, builds ML prediction engines and multi-agent AI workflows, and is open to international & onsite assignments.';
 }

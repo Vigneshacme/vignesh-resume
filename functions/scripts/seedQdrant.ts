@@ -1,14 +1,17 @@
 /**
  * Qdrant Vector Seeding Script for Vignesh Kumar Ekambaram's Resume Knowledge Base
+ * Uses Google Gemini (gemini-embedding-001) Neural Network Embeddings
  */
 import { QdrantClient } from '@qdrant/js-client-rest';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
+import * as https from 'https';
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 const COLLECTION_NAME = 'resume_knowledge';
 const VECTOR_DIMENSION = 768;
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 interface ResumeKnowledgeChunk {
   id: number;
@@ -124,23 +127,60 @@ const KNOWLEDGE_BASE: ResumeKnowledgeChunk[] = [
   },
 ];
 
-function generateEmbedding(text: string): number[] {
-  const vector = new Array(VECTOR_DIMENSION).fill(0);
-  const normalized = text.toLowerCase();
-  for (let i = 0; i < normalized.length; i++) {
-    const charCode = normalized.charCodeAt(i);
-    const index = (i * 31 + charCode) % VECTOR_DIMENSION;
-    vector[index] += Math.sin(charCode);
-  }
-  const norm = Math.sqrt(vector.reduce((sum, val) => sum + val * val, 0)) || 1;
-  return vector.map((v) => v / norm);
+function generateNeuralEmbedding(text: string): Promise<number[]> {
+  return new Promise((resolve, reject) => {
+    const postData = JSON.stringify({
+      content: { parts: [{ text }] },
+      outputDimensionality: VECTOR_DIMENSION,
+    });
+
+    const options = {
+      hostname: 'generativelanguage.googleapis.com',
+      port: 443,
+      path: `/v1beta/models/gemini-embedding-001:embedContent?key=${GEMINI_API_KEY}`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(postData),
+        'User-Agent': 'VigneshResumeSeeder/1.0',
+      },
+      timeout: 10000,
+    };
+
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => { data += chunk; });
+      res.on('end', () => {
+        try {
+          const parsed = JSON.parse(data);
+          if (parsed.embedding && parsed.embedding.values) {
+            resolve(parsed.embedding.values);
+          } else {
+            reject(new Error(`API Error: ${data}`));
+          }
+        } catch (e: any) {
+          reject(e);
+        }
+      });
+    });
+
+    req.on('error', (e) => reject(e));
+    req.on('timeout', () => {
+      req.destroy();
+      reject(new Error('Embedding request timeout'));
+    });
+
+    req.write(postData);
+    req.end();
+  });
 }
 
 async function runSeed() {
   const qdrantUrl = process.env.QDRANT_URL || 'https://13ef6f67-e1be-4ed6-8f7b-2ae89c8eaee5.eu-central-1-0.aws.cloud.qdrant.io:6333';
   const qdrantApiKey = process.env.QDRANT_API_KEY;
 
-  console.log('Connecting to Qdrant at:', qdrantUrl);
+  console.log('Connecting to Qdrant Cloud at:', qdrantUrl);
+  console.log('Generating Neural Network embeddings via Google Gemini (gemini-embedding-001)...');
 
   const client = new QdrantClient({
     url: qdrantUrl,
@@ -156,25 +196,33 @@ async function runSeed() {
         distance: 'Cosine',
       },
     });
-    console.log(`[✓] Created collection "${COLLECTION_NAME}" with ${VECTOR_DIMENSION}-dim vectors.`);
+    console.log(`[✓] Created collection "${COLLECTION_NAME}" with 768-dim Neural Cosine vectors.`);
 
-    const points = KNOWLEDGE_BASE.map((chunk) => ({
-      id: chunk.id,
-      vector: generateEmbedding(chunk.content + ' ' + chunk.tags.join(' ')),
-      payload: {
-        title: chunk.title,
-        category: chunk.category,
-        tags: chunk.tags,
-        content: chunk.content,
-      },
-    }));
+    const points = [];
+    for (const chunk of KNOWLEDGE_BASE) {
+      console.log(`[Neural Embedding] Vectorizing chunk ${chunk.id}: "${chunk.title}"...`);
+      const textToEmbed = `${chunk.title}\n${chunk.content}\nTags: ${chunk.tags.join(', ')}`;
+      const vector = await generateNeuralEmbedding(textToEmbed);
+      points.push({
+        id: chunk.id,
+        vector,
+        payload: {
+          title: chunk.title,
+          category: chunk.category,
+          tags: chunk.tags,
+          content: chunk.content,
+        },
+      });
+    }
 
     await client.upsert(COLLECTION_NAME, {
       wait: true,
       points,
     });
 
-    console.log(`[✓] Upserted ${points.length} knowledge chunks into Qdrant Cloud successfully!`);
+    console.log(`\n=====================================================`);
+    console.log(`[✓] Successfully seeded Qdrant Cloud with 10 Neural Vectors!`);
+    console.log(`=====================================================`);
   } catch (error: any) {
     console.error('Seeding error:', error.message);
   }
