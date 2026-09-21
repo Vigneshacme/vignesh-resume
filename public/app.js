@@ -265,5 +265,5 @@ function generateClientFallbackAnswer(query) {
     return "Vignesh actively leads R&D integrating AI Agents, Model Context Protocol (MCP), and Retrieval-Augmented Generation (RAG). He uses Qdrant vector database for semantic similarity search, hybrid retrieval, and LLM grounding.";
   }
 
-  return "Vignesh Kumar E is a Tech Lead and Solution Architect with 10+ years of experience engineering scalable systems in .NET Core, Angular, Node.js, SQL Server, and AWS. He leads engineering teams, designs decoupled asynchronous architectures, and optimizes enterprise cloud systems.";
+  return "Vignesh Kumar Ekambaram is a Tech Lead and Solution Architect with 12+ years of experience engineering scalable systems in .NET Core, Angular, Node.js, SQL Server, and AWS. He leads a five-member team, manages client delivery, and designs machine-learning and AI/RAG solutions.";
 }

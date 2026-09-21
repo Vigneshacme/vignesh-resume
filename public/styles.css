@@ -312,6 +312,36 @@ body {
   margin-top: 0.5rem;
 }
 
+.career-snapshot {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+  max-width: 900px;
+  margin-top: 0.5rem;
+}
+
+.snapshot-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.85rem 1rem;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.14), rgba(56, 189, 248, 0.08));
+  border: 1px solid rgba(129, 140, 248, 0.24);
+  border-radius: var(--radius-md);
+}
+
+.snapshot-item strong {
+  color: #fff;
+  font-size: 1.15rem;
+  line-height: 1.2;
+}
+
+.snapshot-item span {
+  color: #cbd5e1;
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
 /* ==========================================================================
    Main Layout & Cards
    ========================================================================== */
@@ -809,6 +839,9 @@ body {
   .hero-cta-group {
     flex-direction: column;
   }
+  .career-snapshot {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   .chat-drawer {
     width: 100vw;
     right: -100vw;
@@ -1045,4 +1078,3 @@ body {
 .dot-db     { background: #f97316; }
 .dot-vector { background: #8b5cf6; }
 .dot-ai     { background: #34d399; }
-

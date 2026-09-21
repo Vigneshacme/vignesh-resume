@@ -60,10 +60,10 @@
         </p>
         <div class="hero-summary">
           <p>
-            Tech Lead and Full-Stack Architect with <strong>10+ years</strong> of enterprise experience engineering distributed, 
-            high-performance web systems using <strong>.NET Core, Angular, Node.js, SQL Server, and AWS</strong>. Proven track record 
-            in API design, microservices, complex asynchronous processing, and SQL database tuning. Demonstrates hands-on leadership 
-            across CI/CD automation, cloud architecture, machine learning prediction engines, and multi-agent AI ecosystems. Actively integrating 
+            Tech Lead and Full-Stack Architect with <strong>12+ years</strong> of enterprise experience engineering distributed,
+            high-performance web systems using <strong>.NET Core, Angular, Node.js, SQL Server, and AWS</strong>. Leads a five-member
+            engineering team, manages delivery priorities, and partners directly with clients across requirements, support, and project coordination.
+            Demonstrates hands-on leadership across CI/CD automation, cloud architecture, machine-learning prediction engines, and multi-agent AI ecosystems. Actively integrating
             <strong>AI Agents, Model Context Protocol (MCP), and Retrieval-Augmented Generation (RAG)</strong> into modern enterprise automation workflows.
           </p>
         </div>
@@ -72,6 +72,12 @@
           <a href="#projects" class="btn-secondary">Featured Projects</a>
           <a href="#skills" class="btn-secondary">Technical Skills</a>
           <button class="btn-accent" onclick="document.getElementById('ai-chat-btn').click()">Chat with AI Assistant (Qdrant RAG)</button>
+        </div>
+        <div class="career-snapshot" aria-label="Career highlights">
+          <div class="snapshot-item"><strong>12+</strong><span>Years in software delivery</span></div>
+          <div class="snapshot-item"><strong>5</strong><span>Engineers led</span></div>
+          <div class="snapshot-item"><strong>2</strong><span>Client countries supported</span></div>
+          <div class="snapshot-item"><strong>AWS</strong><span>Cloud &amp; data platforms</span></div>
         </div>
       </div>
     </section>
@@ -97,9 +103,7 @@
               <span class="tag">TypeScript</span>
               <span class="tag">JavaScript</span>
               <span class="tag">SQL</span>
-              <span class="tag">HTML5</span>
-              <span class="tag">CSS3</span>
-              <span class="tag">JSON</span>
+              <span class="tag">Python</span>
             </div>
           </div>
 
@@ -129,7 +133,9 @@
           <div class="skill-category">
             <div class="category-title">Cloud & DevOps</div>
             <div class="tags">
-              <span class="tag">AWS (EC2, ALB, RDS, WAF, S3)</span>
+              <span class="tag">AWS (EC2, S3, ELB/ALB, RDS, WAF)</span>
+              <span class="tag">Amazon CloudSearch</span>
+              <span class="tag">RDS for SQL Server &amp; MySQL</span>
               <span class="tag">Vercel Edge</span>
               <span class="tag">Google Firebase</span>
               <span class="tag">Docker</span>
@@ -177,7 +183,8 @@
               <span class="tag">Qdrant Vector DB</span>
               <span class="tag">HOG Feature Extraction</span>
               <span class="tag">Decision Tree Regression</span>
-              <span class="tag">Playwright Automation</span>
+              <span class="tag">YOLO Visual Detection</span>
+              <span class="tag">Playwright MCP Automation</span>
             </div>
           </div>
         </div>
@@ -209,6 +216,9 @@
                 manufacturing products (<em>JQMS, PTE, AlfaDock</em>) utilizing .NET, Angular, Node.js, and SQL Server.
               </li>
               <li>
+                <strong>Delivery & Client Partnership:</strong> Manage a five-member engineering team, prioritize client requests, coordinate delivery, and provide on-site client support in Thailand and Japan.
+              </li>
+              <li>
                 <strong>AI Agents & Multi-Agent RAG Orchestration:</strong> Architected a domain-driven multi-agent ecosystem where specialized agents 
                 handle Quotation, Production Scheduling, and Machine IoT Data, coordinated via a central Agent Orchestrator and vector search.
               </li>
@@ -222,7 +232,10 @@
               </li>
               <li>
                 <strong>Cloud & CI/CD Engineering:</strong> Architected AWS deployments using EC2, ALB, RDS, and WAF with automated GitLab CI/CD 
-                pipelines driving automated deployments to multi-tenant IIS environments.
+                pipelines driving automated deployments to multi-tenant IIS environments; worked with EC2, S3, ELB/load balancing, CloudSearch, and RDS for SQL Server and MySQL.
+              </li>
+              <li>
+                <strong>Quality Engineering:</strong> Improved browser-level regression coverage through Playwright automation and MCP-enabled testing workflows.
               </li>
               <li>
                 <strong>API & System Security:</strong> Implemented YARP API Gateway patterns, JWT authentication, distributed caching via Redis, 
@@ -241,8 +254,8 @@
             <ul class="bullet-list">
               <li>
                 <strong>Machine Learning for Quote & Cycle Time Prediction:</strong> Engineered predictive ML pipelines for sheet metal manufacturing. 
-                Extracted visual and spatial features from 2D/3D CAD drawing data using the <strong>HOG (Histogram of Oriented Gradients)</strong> algorithm, 
-                and modeled tabular manufacturing attributes using <strong>Decision Tree Regression</strong> to predict accurate quotation pricing and machine process times.
+                Extracted visual and spatial features from 2D/3D CAD drawing data using <strong>HOG (Histogram of Oriented Gradients)</strong> and YOLO-based visual detection,
+                then applied regression approaches including <strong>DecisionTreeRegressor</strong> to predict quotation pricing and machine process times.
               </li>
               <li>
                 <strong>Sheet Metal Manufacturing Quotation System:</strong> Designed modular quotation calculation engines translating complex fabrication steps 
@@ -316,8 +329,7 @@
           <div class="highlight-box">
             <div class="highlight-title">ML Process Time & Price Prediction Engine</div>
             <p>
-              Integrated computer vision feature extraction with <strong>HOG (Histogram of Oriented Gradients)</strong> on CAD drawings 
-              combined with <strong>Decision Tree Regression</strong> on historical fabrication logs to predict processing times and pricing.
+              Applied HOG feature extraction and YOLO-based visual detection to CAD drawings, combined with DecisionTreeRegressor models on historical fabrication data to estimate processing time and pricing.
             </p>
           </div>
 
@@ -478,12 +490,13 @@
 
       <div class="chat-body" id="chat-messages">
         <div class="chat-bubble bot">
-          <p>Hello! I am Vignesh's AI Portfolio Assistant. I can answer questions about his 10+ years of Tech Lead experience, .NET & cloud architectures, SQL Server tuning, machine learning quote prediction, or multi-agent AI ecosystems.</p>
+          <p>Hello! I am Vignesh's AI Portfolio Assistant. I can answer questions about his 12+ years of engineering leadership, client delivery, .NET and cloud architecture, SQL Server tuning, machine-learning work, or multi-agent AI systems.</p>
           <div class="suggested-queries">
             <button class="suggestion-chip" onclick="askQuestion('Tell me about your ML quote and cycle time prediction project')">ML Quote Prediction?</button>
             <button class="suggestion-chip" onclick="askQuestion('How did you design the domain AI agents and orchestrator?')">Multi-Agent RAG?</button>
             <button class="suggestion-chip" onclick="askQuestion('What is your experience as Senior Software Engineer (2018-2022)?')">Senior SE Role?</button>
             <button class="suggestion-chip" onclick="askQuestion('How did you handle async queues with RabbitMQ and SQS?')">Async Queues?</button>
+            <button class="suggestion-chip" onclick="askQuestion('Tell me about your client delivery and team leadership experience')">Leadership &amp; Clients?</button>
           </div>
         </div>
       </div>
