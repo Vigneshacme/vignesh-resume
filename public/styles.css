@@ -714,6 +714,29 @@ body {
   line-height: 1;
 }
 
+.chat-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.chat-reset {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-family: var(--font-main);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.35rem 0.5rem;
+}
+
+.chat-reset:hover {
+  border-color: var(--accent-secondary);
+  color: var(--accent-secondary);
+}
+
 .chat-close:hover {
   color: var(--text-primary);
 }

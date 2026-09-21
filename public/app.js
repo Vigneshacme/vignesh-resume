@@ -112,13 +112,17 @@ function animateCounter(element, target) {
    3. AI Recruiter Chatbot Drawer (Qdrant Vector DB & RAG)
    -------------------------------------------------------------------------- */
 function initChatDrawer() {
+  const MAX_HISTORY_MESSAGES = 12;
   const drawer = document.getElementById('chat-drawer');
   const overlay = document.getElementById('chat-overlay');
   const openBtn = document.getElementById('ai-chat-btn');
   const closeBtn = document.getElementById('chat-close-btn');
+  const resetBtn = document.getElementById('chat-reset-btn');
   const form = document.getElementById('chat-form');
   const input = document.getElementById('chat-input');
   const messagesContainer = document.getElementById('chat-messages');
+  const welcomeMarkup = messagesContainer?.innerHTML || '';
+  const conversationHistory = [];
 
   if (!drawer || !openBtn) return;
 
@@ -138,6 +142,13 @@ function initChatDrawer() {
   openBtn.addEventListener('click', openChat);
   closeBtn?.addEventListener('click', closeChat);
   overlay?.addEventListener('click', closeChat);
+  resetBtn?.addEventListener('click', () => {
+    conversationHistory.length = 0;
+    if (messagesContainer) {
+      messagesContainer.innerHTML = welcomeMarkup;
+    }
+    input?.focus();
+  });
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && drawer.classList.contains('open')) {
@@ -162,13 +173,14 @@ function initChatDrawer() {
     appendMessage(messagesContainer, 'user', query);
     input.value = '';
     const loadingId = appendLoadingIndicator(messagesContainer);
+    const historyForRequest = conversationHistory.slice(-MAX_HISTORY_MESSAGES);
 
     let data = null;
     try {
       let response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question: query })
+        body: JSON.stringify({ question: query, history: historyForRequest })
       });
 
       // If on Firebase where /api/chat is 404, fallback to Vercel serverless backend
@@ -176,7 +188,7 @@ function initChatDrawer() {
         response = await fetch('https://vignesh-resume-chi.vercel.app/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ question: query })
+          body: JSON.stringify({ question: query, history: historyForRequest })
         });
       }
 
@@ -188,7 +200,7 @@ function initChatDrawer() {
         const vRes = await fetch('https://vignesh-resume-chi.vercel.app/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ question: query })
+          body: JSON.stringify({ question: query, history: historyForRequest })
         });
         if (vRes.ok) data = await vRes.json();
       } catch (e) {}
@@ -198,11 +210,21 @@ function initChatDrawer() {
 
     if (data && data.answer) {
       appendMessage(messagesContainer, 'bot', data.answer, data.sources);
+      rememberConversationTurn(conversationHistory, query, data.answer, MAX_HISTORY_MESSAGES);
     } else {
       const fallbackAnswer = generateClientFallbackAnswer(query);
       appendMessage(messagesContainer, 'bot', fallbackAnswer);
+      rememberConversationTurn(conversationHistory, query, fallbackAnswer, MAX_HISTORY_MESSAGES);
     }
   });
+}
+
+function rememberConversationTurn(history, question, answer, maxMessages) {
+  history.push({ role: 'user', content: question });
+  history.push({ role: 'assistant', content: answer });
+  if (history.length > maxMessages) {
+    history.splice(0, history.length - maxMessages);
+  }
 }
 
 function appendMessage(container, sender, text, sources) {

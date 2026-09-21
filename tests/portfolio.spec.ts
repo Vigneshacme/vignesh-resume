@@ -56,7 +56,16 @@ test.describe('Vignesh Kumar E - Portfolio & Cloud Resume', () => {
     await expect(hitCount).not.toHaveText('...', { timeout: 5000 });
   });
 
-  test('should open AI recruiter chat drawer and respond to queries', async ({ page }) => {
+  test('should retain short-term chat context and allow a new conversation', async ({ page }) => {
+    const requests: Array<{ question?: string; history?: Array<{ role: string; content: string }> }> = [];
+    await page.route('**/api/chat', async (route) => {
+      const request = route.request();
+      requests.push(JSON.parse(request.postData() || '{}'));
+      await route.fulfill({
+        contentType: 'application/json',
+        body: JSON.stringify({ answer: 'Direct, grounded response.', sources: ['Technical Skills'] }),
+      });
+    });
     await page.goto('/');
 
     // Click to open AI chat
@@ -66,16 +75,22 @@ test.describe('Vignesh Kumar E - Portfolio & Cloud Resume', () => {
     const drawer = page.locator('#chat-drawer');
     await expect(drawer).toHaveClass(/open/);
 
-    // Check suggestion chips
-    const firstChip = page.locator('.suggestion-chip').first();
-    await expect(firstChip).toBeVisible();
-
-    // Click suggestion chip to test automated interaction
-    await firstChip.click();
-
-    // Ensure user bubble and bot response bubble appear
+    await page.locator('#chat-input').fill('Does he know Java?');
+    await page.locator('#chat-input').press('Enter');
     await expect(page.locator('.chat-bubble.user')).toBeVisible();
     await expect(page.locator('.chat-bubble.bot').nth(1)).toBeVisible({ timeout: 6000 });
+
+    await page.locator('#chat-input').fill('What about JavaScript?');
+    await page.locator('#chat-input').press('Enter');
+    await expect.poll(() => requests.length).toBe(2);
+    expect(requests[1].history).toEqual([
+      { role: 'user', content: 'Does he know Java?' },
+      { role: 'assistant', content: 'Direct, grounded response.' },
+    ]);
+
+    await page.locator('#chat-reset-btn').click();
+    await expect(page.locator('.chat-bubble.user')).toHaveCount(0);
+    await expect(page.locator('.suggestion-chip').first()).toBeVisible();
   });
 
 });
