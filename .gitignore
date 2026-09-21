@@ -29,3 +29,7 @@ test-results/
 # OS
 .DS_Store
 Thumbs.db
+
+# Temporary artifacts
+tmp/
+
