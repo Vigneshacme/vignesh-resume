@@ -179,6 +179,10 @@ async function runSeed() {
   const qdrantUrl = process.env.QDRANT_URL || 'https://13ef6f67-e1be-4ed6-8f7b-2ae89c8eaee5.eu-central-1-0.aws.cloud.qdrant.io:6333';
   const qdrantApiKey = process.env.QDRANT_API_KEY;
 
+  if (!GEMINI_API_KEY || !qdrantApiKey) {
+    throw new Error('GEMINI_API_KEY and QDRANT_API_KEY must be set before seeding Qdrant.');
+  }
+
   console.log('Connecting to Qdrant Cloud at:', qdrantUrl);
   console.log('Generating Neural Network embeddings via Google Gemini (gemini-embedding-001)...');
 

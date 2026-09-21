@@ -16,7 +16,7 @@ export class QdrantService {
 
   constructor() {
     const url = process.env.QDRANT_URL || 'http://127.0.0.1:6333';
-    const apiKey = process.env.QDRANT_API_KEY || undefined;
+    const apiKey = process.env.QDRANT_API_KEY;
 
     this.client = new QdrantClient({
       url,

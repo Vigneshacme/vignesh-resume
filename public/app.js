@@ -161,6 +161,7 @@ function initChatDrawer() {
     // Append user message
     appendMessage(messagesContainer, 'user', query);
     input.value = '';
+    const loadingId = appendLoadingIndicator(messagesContainer);
 
     let data = null;
     try {

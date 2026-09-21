@@ -1,7 +1,6 @@
 const https = require('https');
 
-const QDRANT_HOST = '13ef6f67-e1be-4ed6-8f7b-2ae89c8eaee5.eu-central-1-0.aws.cloud.qdrant.io';
-const QDRANT_PORT = 6333;
+const QDRANT_URL = process.env.QDRANT_URL;
 const QDRANT_API_KEY = process.env.QDRANT_API_KEY;
 const COLLECTION_NAME = 'resume_knowledge';
 const VECTOR_DIMENSION = 768;
@@ -10,7 +9,6 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 module.exports = async function handler(req, res) {
   // CORS & Preflight
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
   res.setHeader(
@@ -35,6 +33,11 @@ module.exports = async function handler(req, res) {
   const question = (body?.question || '').trim();
   if (!question) {
     return res.status(400).json({ error: 'Missing question parameter' });
+  }
+
+  if (!GEMINI_API_KEY || !QDRANT_API_KEY || !QDRANT_URL) {
+    console.error('[chat] Missing required server environment variables.');
+    return res.status(503).json({ error: 'AI assistant is temporarily unavailable. Please try again later.' });
   }
 
   try {
@@ -217,6 +220,15 @@ GUIDELINES:
 
 function searchQdrant(vector) {
   return new Promise((resolve) => {
+    let qdrantEndpoint;
+    try {
+      qdrantEndpoint = new URL(QDRANT_URL);
+    } catch (error) {
+      console.error('[chat] QDRANT_URL is not a valid URL.');
+      resolve([]);
+      return;
+    }
+
     const postData = JSON.stringify({
       vector: vector,
       limit: 3,
@@ -224,8 +236,8 @@ function searchQdrant(vector) {
     });
 
     const options = {
-      hostname: QDRANT_HOST,
-      port: QDRANT_PORT,
+      hostname: qdrantEndpoint.hostname,
+      port: Number(qdrantEndpoint.port || 443),
       path: `/collections/${COLLECTION_NAME}/points/search`,
       method: 'POST',
       headers: {
