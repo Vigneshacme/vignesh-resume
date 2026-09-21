@@ -69,14 +69,10 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    // Fallback if Gemini response was empty
+    // Keep answers conversational if the LLM is temporarily unavailable.
+    // Raw retrieved chunks should never be displayed to a visitor.
     if (!answer) {
-      if (qdrantResults && qdrantResults.length > 0) {
-        const top = qdrantResults[0];
-        answer = `Based on Vignesh's verified portfolio data (${top.payload?.title}):\n\n${top.payload?.content}`;
-      } else {
-        answer = generateRuleBasedFallback(question);
-      }
+      answer = generateRuleBasedFallback(question);
     }
 
     return res.status(200).json({
@@ -183,7 +179,7 @@ RESPONSE RULES:
     const options = {
       hostname: 'generativelanguage.googleapis.com',
       port: 443,
-      path: `/v1beta/models/gemini-flash-latest:generateContent?key=${GEMINI_API_KEY}`,
+      path: `/v1beta/models/${process.env.GEMINI_MODEL || 'gemini-2.5-flash'}:generateContent?key=${GEMINI_API_KEY}`,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -278,6 +274,9 @@ function searchQdrant(vector) {
 
 function generateRuleBasedFallback(question) {
   const q = question.toLowerCase();
+  if (q.includes('java') && !q.includes('javascript')) {
+    return 'Java is not listed as one of Vignesh\'s verified core skills. His listed languages include C#, TypeScript, JavaScript, SQL, HTML5, and CSS3, with primary backend experience in ASP.NET Core and Node.js.';
+  }
   if (q.includes('ml') || q.includes('hog') || q.includes('decision tree') || q.includes('predict') || q.includes('quote')) {
     return 'Vignesh engineered machine-learning pipelines for sheet metal quotation and process-time prediction. He used HOG feature extraction and YOLO-based visual detection with regression approaches including DecisionTreeRegressor to estimate fabrication costs and machine cycle times.';
   }
