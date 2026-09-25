@@ -8,7 +8,7 @@ test.describe('Vignesh Kumar E - Portfolio & Cloud Resume', () => {
     // Validate main title & roles
     await expect(page.locator('.hero-title')).toContainText('Vignesh Kumar E');
     await expect(page.locator('.hero-subtitle')).toContainText('Tech Lead');
-    await expect(page.locator('.hero-subtitle')).toContainText('Solution Architect');
+    await expect(page.locator('.hero-subtitle')).toContainText('Senior Full-Stack Engineer');
 
     // Validate location & cloud host badge
     await expect(page.locator('.hero-location')).toContainText('Chennai, Tamil Nadu, India');
