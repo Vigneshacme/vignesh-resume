@@ -113,6 +113,25 @@ npm run test:e2e
 
 ## 🌐 Deploying to Firebase (Auto-Generated URL)
 
+### Persistent visitor count
+
+Both hosting backends increment the existing `stats/visitors` document in the
+default Firestore database. Deployments must keep using the same Firebase project
+(`vignesh-cloud-resume-vk` in `.firebaserc`); never seed or reset this document.
+Firebase Functions use their runtime service account. For Vercel, configure the
+server-side `FIREBASE_SERVICE_ACCOUNT` environment variable with service-account
+JSON from that same project, with permission to read and write Firestore data.
+Configure it for each Vercel environment that should use the counter.
+
+The API returns 503 and the badge displays “Unavailable” if Firestore cannot be
+accessed. No temporary in-memory or browser-only counts are shown. Previous
+in-memory counts cannot be recovered from the repository; any existing Firestore
+count is preserved. CI deploys hosting and `trackHit` together, without resetting
+database data. The CI service account must have permission to deploy functions
+as well as hosting.
+
+Run counter regression tests with `node --test tests/visitor-counter.test.cjs`.
+
 Because you do not have a custom domain yet, Firebase Hosting provides free, auto-generated URLs:
 - `https://<YOUR_PROJECT_ID>.web.app`
 - `https://<YOUR_PROJECT_ID>.firebaseapp.com`

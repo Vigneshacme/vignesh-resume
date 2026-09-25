@@ -60,36 +60,20 @@ async function initHitTracker() {
   if (!countEl) return;
 
   try {
-    let response = await fetch('/api/track-hit', { headers: { 'Accept': 'application/json' } });
-    if (!response.ok) {
-      response = await fetch('https://vignesh-resume-chi.vercel.app/api/track-hit', { headers: { 'Accept': 'application/json' } });
+    const response = await fetch('/api/track-hit', {
+      headers: { 'Accept': 'application/json' },
+      cache: 'no-store',
+    });
+    if (!response.ok) throw new Error('Visitor counter unavailable');
+    const data = await response.json();
+    if (!data.success || data.storage !== 'firestore' || !Number.isSafeInteger(data.count) || data.count < 0) {
+      throw new Error('Invalid visitor count');
     }
-
-    if (response.ok) {
-      const data = await response.json();
-      animateCounter(countEl, data.count || 1);
-      return;
-    }
+    animateCounter(countEl, data.count);
   } catch (err) {
-    try {
-      const vRes = await fetch('https://vignesh-resume-chi.vercel.app/api/track-hit', { headers: { 'Accept': 'application/json' } });
-      if (vRes.ok) {
-        const data = await vRes.json();
-        animateCounter(countEl, data.count || 1);
-        return;
-      }
-    } catch (e) {}
+    countEl.textContent = 'Unavailable';
+    countEl.title = 'Visitor count is temporarily unavailable. Please try again later.';
   }
-  handleLocalHitCounter(countEl);
-}
-
-function handleLocalHitCounter(element) {
-  // Local storage simulation for offline previewing
-  const LOCAL_STORAGE_KEY = 'vignesh_resume_hits_local';
-  let localCount = parseInt(localStorage.getItem(LOCAL_STORAGE_KEY) || '142', 10);
-  localCount += 1;
-  localStorage.setItem(LOCAL_STORAGE_KEY, localCount.toString());
-  animateCounter(element, localCount);
 }
 
 function animateCounter(element, target) {

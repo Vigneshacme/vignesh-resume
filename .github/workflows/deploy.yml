@@ -18,10 +18,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci || npm install
+
+      - name: Test visitor counter persistence
+        run: node --test tests/visitor-counter.test.cjs
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps chromium
@@ -57,10 +59,12 @@ jobs:
           npm install
           npm run build
 
-      - name: Deploy to Firebase Hosting (Auto-Generated URL)
-        uses: FirebaseExtended/action-hosting-deploy@v0
+      - name: Authenticate to Firebase
+        uses: google-github-actions/auth@v2
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
-          channelId: live
-          projectId: '${{ secrets.FIREBASE_PROJECT_ID || "vignesh-cloud-resume" }}'
+          credentials_json: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
+
+      - name: Deploy hosting and persistent visitor counter
+        env:
+          FIREBASE_PROJECT_ID: '${{ secrets.FIREBASE_PROJECT_ID || "vignesh-cloud-resume-vk" }}'
+        run: npx --yes firebase-tools deploy --only hosting,functions:trackHit --project "$FIREBASE_PROJECT_ID" --non-interactive

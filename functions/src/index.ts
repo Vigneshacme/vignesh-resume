@@ -13,15 +13,17 @@ try {
 const db = admin.firestore();
 const corsHandler = cors({ origin: true });
 
-// Local in-memory counter fallback for local development without active GCP project
-let inMemoryHitCounter = 142;
-
 /**
  * 1. Serverless Hit Tracker Endpoint (Cloud Resume Challenge Architecture)
  * Atomically increments visitor count in Cloud Firestore using FieldValue.increment(1)
  */
 export const trackHit = onRequest({ cors: true }, async (req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
   corsHandler(req, res, async () => {
+    if (!['GET', 'POST'].includes(req.method)) {
+      res.status(405).json({ success: false, error: 'Method Not Allowed' });
+      return;
+    }
     try {
       const statsDocRef = db.collection('stats').doc('visitors');
 
@@ -36,7 +38,8 @@ export const trackHit = onRequest({ cors: true }, async (req, res) => {
 
       // Read updated value
       const snapshot = await statsDocRef.get();
-      const count = snapshot.exists ? (snapshot.data()?.count ?? 1) : 1;
+      const count = snapshot.data()?.count;
+      if (!Number.isSafeInteger(count) || count < 0) throw new Error('Invalid visitor count');
 
       res.status(200).json({
         success: true,
@@ -44,14 +47,10 @@ export const trackHit = onRequest({ cors: true }, async (req, res) => {
         storage: 'firestore',
       });
     } catch (error: any) {
-      console.warn('[trackHit] Firestore unavailable or running in offline mode. Falling back to memory counter:', error?.message);
-      inMemoryHitCounter += 1;
-
-      res.status(200).json({
-        success: true,
-        count: inMemoryHitCounter,
-        storage: 'memory-fallback',
-        note: 'Firestore requires active GCP credentials. Visit README.md for setup instructions.',
+      console.error('[trackHit] Firestore counter unavailable:', error?.message);
+      res.status(503).json({
+        success: false,
+        error: 'Visitor count temporarily unavailable',
       });
     }
   });
