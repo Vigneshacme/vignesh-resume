@@ -66,5 +66,5 @@ jobs:
 
       - name: Deploy hosting and persistent visitor counter
         env:
-          FIREBASE_PROJECT_ID: '${{ secrets.FIREBASE_PROJECT_ID || "vignesh-cloud-resume-vk" }}'
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID || 'vignesh-cloud-resume-vk' }}
         run: npx --yes firebase-tools deploy --only hosting,functions:trackHit --project "$FIREBASE_PROJECT_ID" --non-interactive
