@@ -26,12 +26,12 @@ test.describe('Vignesh Kumar E - Portfolio & Cloud Resume', () => {
     await expect(skillsSection).toContainText('Cloud & DevOps');
     await expect(skillsSection).toContainText('Databases & Query Tuning');
     await expect(skillsSection).toContainText('Messaging & Distributed Systems');
-    await expect(skillsSection).toContainText('AI & Automation');
+    await expect(skillsSection).toContainText('AI & Machine Learning');
 
     // Specific tech highlights
     await expect(skillsSection).toContainText('YARP API Gateway');
     await expect(skillsSection).toContainText('Query Store');
-    await expect(skillsSection).toContainText('Qdrant / Vector Databases');
+    await expect(skillsSection).toContainText('Qdrant Vector DB');
   });
 
   test('should display professional experience at alfaTKG and Sirpi', async ({ page }) => {
