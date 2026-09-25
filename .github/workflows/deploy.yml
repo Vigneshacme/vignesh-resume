@@ -1,4 +1,4 @@
-name: CI/CD Pipeline - E2E Tests & Firebase Deployment
+name: CI - Visitor Counter & E2E Tests
 
 on:
   push:
@@ -39,32 +39,5 @@ jobs:
           path: playwright-report/
           retention-days: 14
 
-  deploy:
-    name: Deploy to Firebase Hosting & Functions
-    needs: test
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install Functions Dependencies & Build
-        run: |
-          cd functions
-          npm install
-          npm run build
-
-      - name: Authenticate to Firebase
-        uses: google-github-actions/auth@v2
-        with:
-          credentials_json: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
-
-      - name: Deploy hosting and persistent visitor counter
-        env:
-          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID || 'vignesh-cloud-resume-vk' }}
-        run: npx --yes firebase-tools deploy --only hosting,functions:trackHit --project "$FIREBASE_PROJECT_ID" --non-interactive
+# Hosting and API deployment use the Vercel Git integration.
+# Firestore remains on Spark; do not deploy Firebase Cloud Functions here.

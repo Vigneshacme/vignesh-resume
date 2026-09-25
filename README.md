@@ -7,12 +7,12 @@ Portfolio, Cloud Resume Challenge architecture, and RAG AI Recruiter Assistant f
 ## 🌟 Key Architecture Features
 
 1. **Static Hosting on Global Edge CDN**:
-   - Hosted on Google Firebase Hosting (100% Free Tier).
+   - Hosted on Vercel, with Cloud Firestore on the Firebase Spark plan.
    - Fast, SSL-secured edge caching with HTTP/2 and asset optimization.
    - Works immediately on Firebase auto-generated URLs (`https://<project-id>.web.app` and `https://<project-id>.firebaseapp.com`) without requiring a custom domain.
 2. **Serverless Hit-Tracking Micro-Backend**:
    - Client makes an asynchronous `fetch('/api/track-hit')` request on page load.
-   - Powered by a TypeScript **Firebase Cloud Function (v2)**.
+   - Powered by the **Vercel serverless endpoint** in `api/track-hit.js`.
    - Atomically increments visitor counts using Cloud Firestore's `FieldValue.increment(1)` to eliminate concurrency race conditions.
 3. **Interactive RAG AI Recruiter Assistant**:
    - Embeds a slide-out chatbot drawer on the portfolio.
@@ -23,7 +23,7 @@ Portfolio, Cloud Resume Challenge architecture, and RAG AI Recruiter Assistant f
 5. **End-to-End Automated Testing (Playwright)**:
    - Automated tests in `tests/portfolio.spec.ts` verifying UI rendering, skills matrix, hit-counter connectivity, and AI chat drawer interaction.
 6. **CI/CD Pipeline (GitHub Actions)**:
-   - `.github/workflows/deploy.yml` triggers on push to `main`, executing Playwright E2E tests before deploying to Firebase Hosting.
+   - `.github/workflows/deploy.yml` runs counter regression and Playwright tests. The Vercel Git integration handles deployment separately; GitHub tests do not gate Vercel deployment by default.
 
 ---
 
@@ -111,46 +111,30 @@ npm run test:e2e
 
 ---
 
-## 🌐 Deploying to Firebase (Auto-Generated URL)
+## Deployment: Vercel + Firestore (Spark)
 
-### Persistent visitor count
+The active Firebase project is `vignesh-resume-dbaaf`. Create its Standard
+`(default)` Firestore database in production mode. Hosting and API requests run
+on Vercel; the GitHub workflow only runs tests and does not deploy Firebase
+Functions or require Blaze. Connect the repository to the Vercel project with
+production branch `main` if it is not already connected.
 
-Both hosting backends increment the existing `stats/visitors` document in the
-default Firestore database. Deployments must keep using the same Firebase project
-(`vignesh-cloud-resume-vk` in `.firebaserc`); never seed or reset this document.
-Firebase Functions use their runtime service account. For Vercel, configure the
-server-side `FIREBASE_SERVICE_ACCOUNT` environment variable with service-account
-JSON from that same project, with permission to read and write Firestore data.
-Configure it for each Vercel environment that should use the counter.
+Create a dedicated service account in this project's Google Cloud IAM console
+with the Cloud Datastore User role (`roles/datastore.user`). Create a JSON key
+and store its complete contents in the Vercel project's server-side environment
+variable `FIREBASE_SERVICE_ACCOUNT` for Production. Redeploy to apply the
+variable. Do not commit the key or place it in `public/`. Preview deployments
+should use a separate test database/project if they should not affect live views.
+GitHub no longer needs Firebase deployment secrets for this workflow.
 
-The API returns 503 and the badge displays “Unavailable” if Firestore cannot be
-accessed. No temporary in-memory or browser-only counts are shown. Previous
-in-memory counts cannot be recovered from the repository; any existing Firestore
-count is preserved. CI deploys hosting and `trackHit` together, without resetting
-database data. The CI service account must have permission to deploy functions
-as well as hosting.
+The endpoint atomically increments `stats/visitors.count` and preserves existing
+data. Initialize this document once with a verified historical total, or start
+at zero. New projects do not inherit data from old projects. Never reset or seed
+this document during deployment. If Firestore is unavailable, the API returns
+503 and the badge shows “Unavailable” instead of a fabricated total.
 
 Run counter regression tests with `node --test tests/visitor-counter.test.cjs`.
 
-Because you do not have a custom domain yet, Firebase Hosting provides free, auto-generated URLs:
-- `https://<YOUR_PROJECT_ID>.web.app`
-- `https://<YOUR_PROJECT_ID>.firebaseapp.com`
-
-### Deploy Steps:
-1. **Login to Firebase CLI:**
-   ```powershell
-   npx -y firebase-tools@latest login
-   ```
-2. **Set or Create your Firebase Project:**
-   ```powershell
-   # If using an existing project:
-   npx -y firebase-tools@latest use <YOUR_PROJECT_ID>
-
-   # OR create a brand new project:
-   npx -y firebase-tools@latest projects:create <project-id> --display-name "Vignesh Cloud Resume"
-   ```
-3. **Deploy with a Single Command:**
-   ```powershell
-   npx -y firebase-tools@latest deploy
-   ```
-Firebase will print the live hosting URL (`https://<project-id>.web.app`). When you acquire a custom domain in the future, you can attach it via `firebase hosting:channel:deploy` or through the Firebase Console with automated SSL certificate provisioning.
+The legacy Firebase Hosting/Functions configuration and Terraform infrastructure
+remain available for reference. They are not part of this Spark deployment;
+do not run an unscoped `firebase deploy` or apply the legacy Terraform setup.

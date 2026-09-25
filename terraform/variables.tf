@@ -1,7 +1,7 @@
 variable "project_id" {
   description = "The Google Cloud / Firebase Project ID"
   type        = string
-  default     = "vignesh-cloud-resume"
+  default     = "vignesh-resume-dbaaf"
 }
 
 variable "region" {
