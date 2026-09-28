@@ -1,4 +1,5 @@
 from pathlib import Path
+from shutil import copyfile
 
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_LEFT
@@ -81,6 +82,8 @@ def build():
         ('TOPPADDING', (0, 0), (-1, 0), 6 * mm), ('BOTTOMPADDING', (0, -1), (-1, -1), 6 * mm), ('BOTTOMPADDING', (0, 0), (-1, 1), 1 * mm),
     ]))
     story.append(hero)
+    story.append(Spacer(1, 2 * mm))
+    story.append(paragraph('<b>WhatsApp:</b> <link href="https://wa.me/919042818052" color="#0284C7">+91 9042818052 - Contact me on WhatsApp</link>', styles['body']))
     story += section('Professional Profile', [paragraph('Tech Lead and Full-Stack Solution Architect with 12+ years of experience delivering distributed, high-performance enterprise software. Leads a five-member engineering team, manages client priorities and delivery coordination, and combines hands-on expertise in .NET, Angular, SQL Server, AWS, automation, machine learning, and AI/RAG initiatives. Has supported client engagements through multiple on-site visits to Thailand and a client visit to Japan.', styles['body'])], styles)
     story += section('Leadership & Delivery Strengths', bullets([
         '<b>Team leadership:</b> Lead a five-member engineering team; plan work, unblock delivery, coordinate stakeholders, and manage client requests.',
@@ -129,6 +132,7 @@ def build():
     story.append(Spacer(1, 5 * mm))
     story.append(paragraph('Vignesh Kumar Ekambaram  |  Tech Lead & Full-Stack Solution Architect', styles['footer']))
     doc.build(story)
+    copyfile(OUTPUT, ROOT / 'public' / OUTPUT.name)
     print(OUTPUT)
 
 
