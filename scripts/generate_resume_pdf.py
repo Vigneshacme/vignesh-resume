@@ -120,7 +120,7 @@ def build():
     ], styles)
 
     skills = [
-        [paragraph('<b>Languages & Frameworks</b><br/>C#, TypeScript, JavaScript, SQL, .NET Core, ASP.NET Core, Web API, EF Core, Angular, React, Node.js, Express.js, YARP', styles['skill']), paragraph('<b>Cloud & DevOps</b><br/>AWS EC2, S3, ELB/ALB, CloudSearch, RDS, WAF, Docker, GitLab CI/CD, Firebase, Vercel, IIS, Linux', styles['skill'])],
+        [paragraph('<b>Languages & Frameworks</b><br/>C#, TypeScript, JavaScript, SQL, .NET Core, Web API, EF Core, Angular, React, Node.js, Express.js, YARP', styles['skill']), paragraph('<b>Cloud & DevOps</b><br/>AWS EC2, S3, ELB/ALB, CloudSearch, RDS, WAF, Docker, GitLab CI/CD, Firebase, Vercel, IIS, Linux', styles['skill'])],
         [paragraph('<b>Data & Distributed Systems</b><br/>SQL Server, MySQL, Oracle, Query Store, Redis, RabbitMQ, AWS SQS, SignalR, WebSockets', styles['skill']), paragraph('<b>AI, ML & Quality</b><br/>Qdrant, RAG, AI Agents, MCP, HOG, YOLO, DecisionTreeRegressor, Playwright automation', styles['skill'])],
     ]
     skill_table = Table(skills, colWidths=[85 * mm, 85 * mm], hAlign='LEFT')
