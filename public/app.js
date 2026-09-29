@@ -256,7 +256,7 @@ function generateClientFallbackAnswer(query) {
   const q = query.toLowerCase();
 
   if (q.includes('async') || q.includes('rabbitmq') || q.includes('queue') || q.includes('message')) {
-    return "At alfaTKG, Vignesh designed a high-throughput queue processing engine using RabbitMQ, AWS SQS, and containerized .NET Worker Services. This decoupled heavy document/thumbnail generation from synchronous API handlers and eliminated polling patterns using SignalR/WebSockets.";
+    return "At alfaTKG, Vignesh designed a high-throughput queue processing engine using RabbitMQ, AWS SQS, and containerized .NET Core Worker Services. This decoupled heavy document/thumbnail generation from synchronous API handlers and eliminated polling patterns using SignalR/WebSockets.";
   }
 
   if (q.includes('sql') || q.includes('tune') || q.includes('database') || q.includes('query')) {
