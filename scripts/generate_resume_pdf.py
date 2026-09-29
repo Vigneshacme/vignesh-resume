@@ -84,7 +84,7 @@ def build():
     story.append(hero)
     story.append(Spacer(1, 2 * mm))
     story.append(paragraph('<b>WhatsApp:</b> <link href="https://wa.me/919042818052" color="#0284C7">+91 9042818052 - Contact me on WhatsApp</link>', styles['body']))
-    story += section('Professional Profile', [paragraph('Tech Lead and Full-Stack Solution Architect with 12+ years of experience delivering distributed, high-performance enterprise software. Leads a five-member engineering team, manages client priorities and delivery coordination, and combines hands-on expertise in .NET, Angular, SQL Server, AWS, automation, machine learning, and AI/RAG initiatives. Has supported client engagements through multiple on-site visits to Thailand and a client visit to Japan.', styles['body'])], styles)
+    story += section('Professional Profile', [paragraph('Tech Lead and Full-Stack Solution Architect with 12+ years of experience delivering distributed, high-performance enterprise software. Leads a five-member engineering team, manages client priorities and delivery coordination, and combines hands-on expertise in .NET, Angular, React, SQL Server, AWS, automation, machine learning, and AI/RAG initiatives. Has supported client engagements through multiple on-site visits to Thailand and a client visit to Japan.', styles['body'])], styles)
     story += section('Leadership & Delivery Strengths', bullets([
         '<b>Team leadership:</b> Lead a five-member engineering team; plan work, unblock delivery, coordinate stakeholders, and manage client requests.',
         '<b>International client support:</b> Supported client visits and delivery activities in Thailand and Japan.',
@@ -93,7 +93,7 @@ def build():
     ], styles), styles)
     story += section('Professional Experience', [
         role('Tech Lead', 'alfaTKG', '2022 - Present', [
-            'Lead the engineering delivery of JQMS, PTE, and AlfaDock using .NET, Angular, Node.js, and SQL Server.',
+            'Lead the engineering delivery of JQMS, PTE, and AlfaDock using .NET, Angular, React, Node.js, and SQL Server.',
             'Manage a five-member team, prioritize client requirements, coordinate delivery, and provide direct client support.',
             'Designed asynchronous processing with RabbitMQ, AWS SQS, and .NET worker services; used SignalR/WebSockets for live feedback.',
             'Optimized high-concurrency SQL Server workloads through Query Store analysis, execution plans, locking analysis, and indexing.',
@@ -120,7 +120,7 @@ def build():
     ], styles)
 
     skills = [
-        [paragraph('<b>Languages & Frameworks</b><br/>C#, TypeScript, JavaScript, SQL, ASP.NET Core, Web API, EF Core, Angular, Node.js, Express.js, YARP', styles['skill']), paragraph('<b>Cloud & DevOps</b><br/>AWS EC2, S3, ELB/ALB, CloudSearch, RDS, WAF, Docker, GitLab CI/CD, Firebase, Vercel, IIS, Linux', styles['skill'])],
+        [paragraph('<b>Languages & Frameworks</b><br/>C#, TypeScript, JavaScript, SQL, ASP.NET Core, Web API, EF Core, Angular, React, Node.js, Express.js, YARP', styles['skill']), paragraph('<b>Cloud & DevOps</b><br/>AWS EC2, S3, ELB/ALB, CloudSearch, RDS, WAF, Docker, GitLab CI/CD, Firebase, Vercel, IIS, Linux', styles['skill'])],
         [paragraph('<b>Data & Distributed Systems</b><br/>SQL Server, MySQL, Oracle, Query Store, Redis, RabbitMQ, AWS SQS, SignalR, WebSockets', styles['skill']), paragraph('<b>AI, ML & Quality</b><br/>Qdrant, RAG, AI Agents, MCP, HOG, YOLO, DecisionTreeRegressor, Playwright automation', styles['skill'])],
     ]
     skill_table = Table(skills, colWidths=[85 * mm, 85 * mm], hAlign='LEFT')
