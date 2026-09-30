@@ -77,7 +77,7 @@ def build():
     }
 
     story = []
-    hero = Table([[paragraph('VIGNESH KUMAR EKAMBARAM', styles['name'])], [paragraph('TECH LEAD | FULL-STACK SOLUTION ARCHITECT | CLIENT DELIVERY LEAD', styles['headline'])], [paragraph('Chennai, Tamil Nadu, India  |  12+ years in software development  |  Open to international and on-site assignments', styles['contact'])]], colWidths=[170 * mm])
+    hero = Table([[paragraph('VIGNESH KUMAR EKAMBARAM', styles['name'])], [paragraph('<b>TECH LEAD</b><br/>Full-Stack Architecture | Client Delivery | Team Leadership', styles['headline'])], [paragraph('Chennai, Tamil Nadu, India  |  12+ years in software development  |  Open to international and on-site assignments', styles['contact'])]], colWidths=[170 * mm])
     hero.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, -1), NAVY), ('LEFTPADDING', (0, 0), (-1, -1), 8 * mm), ('RIGHTPADDING', (0, 0), (-1, -1), 8 * mm),
         ('TOPPADDING', (0, 0), (-1, 0), 6 * mm), ('BOTTOMPADDING', (0, -1), (-1, -1), 6 * mm), ('BOTTOMPADDING', (0, 0), (-1, 1), 1 * mm),
@@ -85,7 +85,7 @@ def build():
     story.append(hero)
     story.append(Spacer(1, 2 * mm))
     story.append(paragraph('<b>WhatsApp:</b> <link href="https://wa.me/919042818052" color="#0284C7">+91 9042818052</link> | <link href="mailto:vigneshacme@gmail.com" color="#0284C7">vigneshacme@gmail.com</link>', styles['body']))
-    story += section('Professional Profile', [paragraph('Tech Lead and Full-Stack Solution Architect with 12+ years of experience delivering distributed, high-performance enterprise software. Leads a five-member engineering team, manages client priorities and delivery coordination, and combines hands-on expertise in .NET Core backend development, Angular, React, SQL Server, AWS, automation, machine learning, and AI/RAG initiatives. Has supported client engagements through multiple on-site visits to Thailand and a three-month client visit to Japan to gather product-usage feedback.', styles['body'])], styles)
+    story += section('Professional Profile', [paragraph('Tech Lead with 12+ years of experience delivering distributed, high-performance enterprise software. Leads a five-member engineering team, manages client priorities and delivery coordination, and combines hands-on expertise in .NET Core backend development, Angular, React, SQL Server, AWS, automation, machine learning, and AI/RAG initiatives. Has supported client engagements through multiple on-site visits to Thailand and a three-month client visit to Japan to gather product-usage feedback.', styles['body'])], styles)
     story += section('Leadership & Delivery Strengths', bullets([
         '<b>Team leadership:</b> Lead a five-member engineering team; plan work, unblock delivery, coordinate stakeholders, and manage client requests.',
         '<b>International client support:</b> Supported client visits and delivery activities in Thailand and Japan.',
@@ -140,7 +140,7 @@ def build():
 
     story += section('Education', [paragraph('<b>B.E. in Electronics and Communication Engineering</b> | 2009 - 2013<br/>Hidusthan College, Coimbatore, Anna University | GPA: 8.4', styles['body'])], styles)
     story.append(Spacer(1, 5 * mm))
-    story.append(paragraph('Vignesh Kumar Ekambaram  |  Tech Lead & Full-Stack Solution Architect', styles['footer']))
+    story.append(paragraph('Vignesh Kumar Ekambaram  |  Tech Lead', styles['footer']))
     doc.build(story)
     copyfile(OUTPUT, ROOT / 'public' / OUTPUT.name)
     print(OUTPUT)

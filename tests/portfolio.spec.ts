@@ -7,8 +7,8 @@ test.describe('Vignesh Kumar E - Portfolio & Cloud Resume', () => {
 
     // Validate main title & roles
     await expect(page.locator('.hero-title')).toContainText('Vignesh Kumar E');
-    await expect(page.locator('.hero-subtitle')).toContainText('Tech Lead');
-    await expect(page.locator('.hero-subtitle')).toContainText('Senior Full-Stack Engineer');
+    await expect(page.locator('.hero-subtitle')).toContainText('TECH LEAD');
+    await expect(page.locator('.hero-subtitle')).toContainText('Full-Stack Architecture | Client Delivery | Team Leadership');
 
     // Validate location & cloud host badge
     await expect(page.locator('.hero-location')).toContainText('Chennai, Tamil Nadu, India');
@@ -41,7 +41,7 @@ test.describe('Vignesh Kumar E - Portfolio & Cloud Resume', () => {
     await expect(experienceSection).toBeVisible();
 
     await expect(experienceSection).toContainText('alfaTKG');
-    await expect(experienceSection).toContainText('Tech Lead');
+    await expect(experienceSection).toContainText('TECH LEAD');
     await expect(experienceSection).toContainText('Sirpi');
   });
 
