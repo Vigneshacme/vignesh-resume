@@ -51,7 +51,8 @@ def role(title, company, period, points, styles):
         ('TOPPADDING', (0, 0), (-1, -1), 0),
         ('BOTTOMPADDING', (0, 0), (-1, -1), 1),
     ]))
-    return KeepTogether([heading, *bullets(points, styles), Spacer(1, 2 * mm)])
+    items = bullets(points, styles)
+    return [KeepTogether([heading, items[0]]), *items[1:], Spacer(1, 2 * mm)]
 
 
 def build():
@@ -83,33 +84,51 @@ def build():
     ]))
     story.append(hero)
     story.append(Spacer(1, 2 * mm))
-    story.append(paragraph('<b>WhatsApp:</b> <link href="https://wa.me/919042818052" color="#0284C7">+91 9042818052 - Contact me on WhatsApp</link>', styles['body']))
-    story += section('Professional Profile', [paragraph('Tech Lead and Full-Stack Solution Architect with 12+ years of experience delivering distributed, high-performance enterprise software. Leads a five-member engineering team, manages client priorities and delivery coordination, and combines hands-on expertise in .NET Core backend development, Angular, React, SQL Server, AWS, automation, machine learning, and AI/RAG initiatives. Has supported client engagements through multiple on-site visits to Thailand and a client visit to Japan.', styles['body'])], styles)
+    story.append(paragraph('<b>WhatsApp:</b> <link href="https://wa.me/919042818052" color="#0284C7">+91 9042818052</link> | <link href="mailto:vigneshacme@gmail.com" color="#0284C7">vigneshacme@gmail.com</link> | <link href="https://vigneshacme.in" color="#0284C7">vigneshacme.in</link>', styles['body']))
+    story += section('Professional Profile', [paragraph('Tech Lead and Full-Stack Solution Architect with 12+ years of experience delivering distributed, high-performance enterprise software. Leads a five-member engineering team, manages client priorities and delivery coordination, and combines hands-on expertise in .NET Core backend development, Angular, React, SQL Server, AWS, automation, machine learning, and AI/RAG initiatives. Has supported client engagements through multiple on-site visits to Thailand and a three-month client visit to Japan to gather product-usage feedback.', styles['body'])], styles)
     story += section('Leadership & Delivery Strengths', bullets([
         '<b>Team leadership:</b> Lead a five-member engineering team; plan work, unblock delivery, coordinate stakeholders, and manage client requests.',
         '<b>International client support:</b> Supported client visits and delivery activities in Thailand and Japan.',
         '<b>Quality engineering:</b> Improved browser-level regression coverage using Playwright automation and MCP-enabled testing workflows.',
         '<b>Cloud delivery:</b> Experience with AWS EC2, S3, ELB/load balancing, CloudSearch, WAF, and RDS for SQL Server and MySQL.'
     ], styles), styles)
+    skills = [
+        [paragraph('<b>Languages & Frameworks</b><br/>C#, TypeScript, JavaScript, Python, SQL, .NET Core, Web API, EF Core, WCF, Angular, React, Node.js, Express.js, YARP', styles['skill']), paragraph('<b>Cloud & DevOps</b><br/>AWS EC2, S3, ELB/ALB, CloudSearch, RDS, WAF, Docker, GitLab CI/CD, Firebase, Vercel, IIS, Nginx, Apache, Linux', styles['skill'])],
+        [paragraph('<b>Data & Distributed Systems</b><br/>SQL Server, MySQL, Oracle, Query Store, Redis, RabbitMQ, AWS SQS, SignalR, WebSockets', styles['skill']), paragraph('<b>AI, ML & Quality</b><br/>Qdrant, RAG, AI Agents, MCP, HOG, YOLO, scikit-learn, DecisionTreeRegressor, Playwright, SOLID, design patterns', styles['skill'])],
+    ]
+    skill_table = Table(skills, colWidths=[85 * mm, 85 * mm], hAlign='LEFT')
+    skill_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, -1), PALE), ('GRID', (0, 0), (-1, -1), 0.35, LIGHT), ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+        ('LEFTPADDING', (0, 0), (-1, -1), 4 * mm), ('RIGHTPADDING', (0, 0), (-1, -1), 4 * mm), ('TOPPADDING', (0, 0), (-1, -1), 3 * mm), ('BOTTOMPADDING', (0, 0), (-1, -1), 3 * mm),
+    ]))
+    story += section('Technical Skills', [skill_table], styles)
+
     story += section('Professional Experience', [
-        role('Tech Lead', 'alfaTKG', '2022 - Present', [
+        *role('Tech Lead', 'alfaTKG', '2022 - Present', [
             'Lead the engineering delivery of JQMS, PTE, and AlfaDock using .NET Core for backend development, alongside Angular, React, Node.js, and SQL Server.',
-            'Manage a five-member team, prioritize client requirements, coordinate delivery, and provide direct client support.',
+            'Work directly with clients, manage project priorities and delivery, and lead a five-member engineering team.',
+            'Provide on-site client support in Thailand and Japan, gather requirements and product feedback, and coordinate issue resolution.',
             'Designed asynchronous processing with RabbitMQ, AWS SQS, and .NET Core worker services; used SignalR/WebSockets for live feedback.',
             'Optimized high-concurrency SQL Server workloads through Query Store analysis, execution plans, locking analysis, and indexing.',
             'Architected AWS deployments and automated GitLab CI/CD pipelines for multi-tenant IIS environments.'
         ], styles),
-        role('Senior Software Engineer', 'alfaTKG', '2018 - 2022', [
+        *role('Senior Software Engineer / Full-Stack Engineer', 'alfaTKG', '2018 - 2022', [
+            'Gathered requirements, prepared specifications, planned designs, managed cloud servers and databases, and delegated team and project tasks.',
+            'Developed REST APIs and full-stack applications; managed AWS EC2, RDS, CloudSearch, and load balancing.',
+            '<b>GAIA Quote and alfaDOCK.</b> Built quotation and cloud document workflows for small manufacturers. Developed a TypeScript/Node.js/Express quotation API using 3D JSON data from S3, a MySQL-backed report scheduler, and an IIS-hosted C# thumbnail service storing outputs in S3.',
+            '<b>GAIA Smart Quote (GSQ).</b> Collected customer sales-order data, filtered and preprocessed inputs and outputs, trained Python/scikit-learn regression models, evaluated them using mean squared error (MSE), and developed the Angular frontend.',
+            'Applied SOLID principles and design patterns; worked with reflection-based plugins, dependency injection, middleware, validation, logging, Swagger, Angular lazy loading, and RxJS in Agile delivery.',
             'Built machine-learning workflows for sheet-metal quotation and machine-cycle-time prediction.',
             'Applied HOG feature extraction, YOLO-based visual detection, and regression approaches including DecisionTreeRegressor to manufacturing data.',
             'Designed modular quotation engines for laser cutting, punching, bending, welding, cost estimation, and BOM generation.',
             'Developed core architecture for AlfaDock and PTE, and mentored engineers on testing and design practices.'
         ], styles),
-        role('Software Development Engineer', 'alfaTKG', '2015 - 2018', [
-            'Developed .NET and SQL Server applications, REST APIs, optimized database access, and provided production incident support.'
+        *role('Software Development Engineer', 'alfaTKG', 'Aug 2015 - 2018', [
+            'Developed Angular frontend applications and .NET desktop applications using WPF; supported C++ wrapper libraries for integration into C# applications.',
+            'Developed and maintained applications and REST APIs; fixed bugs, provided support, managed Git workflows and server deployments, and reported daily progress.'
         ], styles),
-        role('Software Engineer', 'Sirpi', 'Oct 2013 - Aug 2015', [
-            'Developed Windows desktop applications using .NET Framework and worked on Android app development.'
+        *role('Software Engineer', 'Sirpi', 'Oct 2013 - Aug 2015', [
+            'Developed Windows desktop applications using .NET Framework and worked on Android app development; prepared test cases and performed testing.'
         ], styles),
     ], styles)
 
@@ -119,16 +138,7 @@ def build():
         paragraph('<b>Resilient enterprise systems.</b> Implemented YARP API gateway patterns, JWT authentication, Redis caching, rate limiting, and decoupled worker-based processing.', styles['body']),
     ], styles)
 
-    skills = [
-        [paragraph('<b>Languages & Frameworks</b><br/>C#, TypeScript, JavaScript, SQL, .NET Core, Web API, EF Core, Angular, React, Node.js, Express.js, YARP', styles['skill']), paragraph('<b>Cloud & DevOps</b><br/>AWS EC2, S3, ELB/ALB, CloudSearch, RDS, WAF, Docker, GitLab CI/CD, Firebase, Vercel, IIS, Linux', styles['skill'])],
-        [paragraph('<b>Data & Distributed Systems</b><br/>SQL Server, MySQL, Oracle, Query Store, Redis, RabbitMQ, AWS SQS, SignalR, WebSockets', styles['skill']), paragraph('<b>AI, ML & Quality</b><br/>Qdrant, RAG, AI Agents, MCP, HOG, YOLO, DecisionTreeRegressor, Playwright automation', styles['skill'])],
-    ]
-    skill_table = Table(skills, colWidths=[85 * mm, 85 * mm], hAlign='LEFT')
-    skill_table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, -1), PALE), ('GRID', (0, 0), (-1, -1), 0.35, LIGHT), ('VALIGN', (0, 0), (-1, -1), 'TOP'),
-        ('LEFTPADDING', (0, 0), (-1, -1), 4 * mm), ('RIGHTPADDING', (0, 0), (-1, -1), 4 * mm), ('TOPPADDING', (0, 0), (-1, -1), 3 * mm), ('BOTTOMPADDING', (0, 0), (-1, -1), 3 * mm),
-    ]))
-    story += section('Technical Skills', [skill_table], styles)
+    story += section('Education', [paragraph('<b>B.E. in Electronics and Communication Engineering</b> | 2009 - 2013<br/>Hidusthan College, Coimbatore, Anna University | GPA: 8.4', styles['body'])], styles)
     story.append(Spacer(1, 5 * mm))
     story.append(paragraph('Vignesh Kumar Ekambaram  |  Tech Lead & Full-Stack Solution Architect', styles['footer']))
     doc.build(story)
