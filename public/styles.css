@@ -1101,3 +1101,27 @@ body {
 .dot-db     { background: #f97316; }
 .dot-vector { background: #8b5cf6; }
 .dot-ai     { background: #34d399; }
+
+
+.whatsapp-float {
+  position: fixed;
+  right: max(20px, env(safe-area-inset-right));
+  bottom: max(20px, env(safe-area-inset-bottom));
+  z-index: 90;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  border-radius: 999px;
+  background: #25d366;
+  color: #052e16;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+}
+.whatsapp-float .icon { width: 28px; height: 28px; flex-shrink: 0; }
+.whatsapp-float:hover { background: #4ade80; }
+.whatsapp-float:focus-visible { outline: 3px solid white; outline-offset: 4px; }
+.footer { padding-bottom: 100px; }
+@media print { .whatsapp-float { display: none; } }

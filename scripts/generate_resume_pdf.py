@@ -84,7 +84,7 @@ def build():
     ]))
     story.append(hero)
     story.append(Spacer(1, 2 * mm))
-    story.append(paragraph('<b>WhatsApp:</b> <link href="https://wa.me/919042818052" color="#0284C7">+91 9042818052</link> | <link href="mailto:vigneshacme@gmail.com" color="#0284C7">vigneshacme@gmail.com</link> | <link href="https://vigneshacme.in" color="#0284C7">vigneshacme.in</link>', styles['body']))
+    story.append(paragraph('<b>WhatsApp:</b> <link href="https://wa.me/919042818052" color="#0284C7">+91 9042818052</link> | <link href="mailto:vigneshacme@gmail.com" color="#0284C7">vigneshacme@gmail.com</link>', styles['body']))
     story += section('Professional Profile', [paragraph('Tech Lead and Full-Stack Solution Architect with 12+ years of experience delivering distributed, high-performance enterprise software. Leads a five-member engineering team, manages client priorities and delivery coordination, and combines hands-on expertise in .NET Core backend development, Angular, React, SQL Server, AWS, automation, machine learning, and AI/RAG initiatives. Has supported client engagements through multiple on-site visits to Thailand and a three-month client visit to Japan to gather product-usage feedback.', styles['body'])], styles)
     story += section('Leadership & Delivery Strengths', bullets([
         '<b>Team leadership:</b> Lead a five-member engineering team; plan work, unblock delivery, coordinate stakeholders, and manage client requests.',
