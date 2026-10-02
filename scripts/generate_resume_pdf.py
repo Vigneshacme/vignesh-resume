@@ -99,13 +99,15 @@ def build():
 
     story += section('Professional Experience', [
         *role('Tech Lead', 'alfaTKG', '2022 - Present', [
-            '<b>Projects:</b> Quote, JQMS, GSQ, PTE, Viewer, and Ticket Tracker. <b>Technologies:</b> Angular, React, .NET Core, Node.js, SQL Server, MySQL, AWS, and machine learning.',
+            '<b>Projects:</b> Quote, JQMS, GSQ, PTE, Viewer, and Ticket Tracker. <b>Technologies:</b> Angular, React, .NET Core, Node.js, SQL Server, MySQL, AWS, machine learning, RAG, Qdrant vector database, and LLMs.',
             '<b>Team leadership:</b> Lead a five-member engineering team, assign responsibilities, track progress, and review code to maintain delivery quality.',
             '<b>Client and project delivery:</b> Work directly with clients and support teams to gather requirements, plan development, and coordinate delivery. Manage sprint plans, release schedules, and deliverable reviews.',
             '<b>Task management:</b> Develop Ticket Tracker and coordinate issue tracking, task allocation, and team workloads.',
             '<b>On-site client support:</b> Visit client sites in Thailand to support implementation, resolve issues, and keep project delivery aligned with client expectations.',
             '<b>Machine learning:</b> Train decision-tree regression models on historical data to predict manufacturing process times and quotation costs. Collaborate with the AI team to evaluate deep-learning approaches for model improvement.',
             '<b>AI-assisted support:</b> Support the development of application-specific agents and an agent orchestrator for chat support across multiple applications.',
+            '<b>RAG and vector retrieval:</b> Implement retrieval-augmented generation (RAG) workflows by storing and indexing unstructured content in the Qdrant vector database for semantic retrieval.',
+            '<b>LLM-powered SQL retrieval:</b> Use large language models (LLMs) to generate SQL queries and retrieve structured data from relational databases.',
             '<b>Test automation:</b> Use Playwright with MCP-enabled workflows to automate testing, reduce manual testing effort and execution time, and improve test quality.',
         ], styles),
         *role('Senior Full-Stack Developer', 'alfaTKG', '2018 - 2022', [
