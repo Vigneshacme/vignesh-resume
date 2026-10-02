@@ -85,16 +85,10 @@ def build():
     story.append(hero)
     story.append(Spacer(1, 2 * mm))
     story.append(paragraph('<b>WhatsApp:</b> <link href="https://wa.me/919042818052" color="#0284C7">+91 9042818052</link> | <link href="mailto:vigneshacme@gmail.com" color="#0284C7">vigneshacme@gmail.com</link>', styles['body']))
-    story += section('Professional Profile', [paragraph('Tech Lead with 12+ years of experience delivering distributed, high-performance enterprise software. Leads a five-member engineering team, manages client priorities and delivery coordination, and combines hands-on expertise in .NET Core backend development, Angular, React, SQL Server, AWS, automation, machine learning, and AI/RAG initiatives. Has supported client engagements through multiple on-site visits to Thailand and a three-month client visit to Japan to gather product-usage feedback.', styles['body'])], styles)
-    story += section('Leadership & Delivery Strengths', bullets([
-        '<b>Team leadership:</b> Lead a five-member engineering team; plan work, unblock delivery, coordinate stakeholders, and manage client requests.',
-        '<b>International client support:</b> Supported client visits and delivery activities in Thailand and Japan.',
-        '<b>Quality engineering:</b> Improved browser-level regression coverage using Playwright automation and MCP-enabled testing workflows.',
-        '<b>Cloud delivery:</b> Experience with AWS EC2, S3, ELB/load balancing, CloudSearch, WAF, and RDS for SQL Server and MySQL.'
-    ], styles), styles)
+    story += section('Professional Profile', [paragraph('Tech Lead with 12+ years of experience across full-stack web applications, desktop software, and Android development. Leads a five-member team and coordinates client requirements, sprint planning, releases, and delivery. Combines .NET Core, Angular, React, and AWS experience with machine-learning and AI support initiatives. International experience includes client support in Thailand and a three-month assignment in Japan.', styles['body'])], styles)
     skills = [
-        [paragraph('<b>Languages & Frameworks</b><br/>C#, TypeScript, JavaScript, Python, SQL, .NET Core, Web API, EF Core, WCF, Angular, React, Node.js, Express.js, YARP', styles['skill']), paragraph('<b>Cloud & DevOps</b><br/>AWS EC2, S3, ELB/ALB, CloudSearch, RDS, WAF, Docker, GitLab CI/CD, Firebase, Vercel, IIS, Nginx, Apache, Linux', styles['skill'])],
-        [paragraph('<b>Data & Distributed Systems</b><br/>SQL Server, MySQL, Oracle, Query Store, Redis, RabbitMQ, AWS SQS, SignalR, WebSockets', styles['skill']), paragraph('<b>AI, ML & Quality</b><br/>Qdrant, RAG, AI Agents, MCP, HOG, YOLO, scikit-learn, DecisionTreeRegressor, Playwright, SOLID, design patterns', styles['skill'])],
+        [paragraph('<b>Languages & Frameworks</b><br/>C#, TypeScript, JavaScript, Python, SQL, .NET Core, Web API, EF Core, WCF, WPF, Angular, React, Node.js, Express.js, YARP', styles['skill']), paragraph('<b>Cloud & DevOps</b><br/>AWS EC2, S3, ELB/ALB, CloudSearch, RDS, WAF, Docker, GitLab CI/CD, Firebase, Vercel, IIS, Nginx, Apache, Linux', styles['skill'])],
+        [paragraph('<b>Data & Distributed Systems</b><br/>SQL Server, MySQL, SQLite, Oracle, Query Store, Redis, RabbitMQ, AWS SQS, SignalR, WebSockets', styles['skill']), paragraph('<b>AI, ML & Quality</b><br/>Qdrant, RAG, AI Agents, MCP, HOG, YOLO, scikit-learn, DecisionTreeRegressor, Playwright, SOLID, design patterns', styles['skill'])],
     ]
     skill_table = Table(skills, colWidths=[85 * mm, 85 * mm], hAlign='LEFT')
     skill_table.setStyle(TableStyle([
@@ -105,37 +99,34 @@ def build():
 
     story += section('Professional Experience', [
         *role('Tech Lead', 'alfaTKG', '2022 - Present', [
-            'Lead the engineering delivery of JQMS, PTE, and AlfaDock using .NET Core for backend development, alongside Angular, React, Node.js, and SQL Server.',
-            'Work directly with clients, manage project priorities and delivery, and lead a five-member engineering team.',
-            'Provide on-site client support in Thailand and Japan, gather requirements and product feedback, and coordinate issue resolution.',
-            'Designed asynchronous processing with RabbitMQ, AWS SQS, and .NET Core worker services; used SignalR/WebSockets for live feedback.',
-            'Optimized high-concurrency SQL Server workloads through Query Store analysis, execution plans, locking analysis, and indexing.',
-            'Architected AWS deployments and automated GitLab CI/CD pipelines for multi-tenant IIS environments.'
+            '<b>Projects:</b> Quote, JQMS, GSQ, PTE, Viewer, and Ticket Tracker. <b>Technologies:</b> Angular, React, .NET Core, Node.js, SQL Server, MySQL, AWS, and machine learning.',
+            '<b>Team leadership:</b> Lead a five-member engineering team, assign responsibilities, track progress, and review code to maintain delivery quality.',
+            '<b>Client and project delivery:</b> Work directly with clients and support teams to gather requirements, plan development, and coordinate delivery. Manage sprint plans, release schedules, and deliverable reviews.',
+            '<b>Task management:</b> Develop Ticket Tracker and coordinate issue tracking, task allocation, and team workloads.',
+            '<b>On-site client support:</b> Visit client sites in Thailand to support implementation, resolve issues, and keep project delivery aligned with client expectations.',
+            '<b>Machine learning:</b> Train decision-tree regression models on historical data to predict manufacturing process times and quotation costs. Collaborate with the AI team to evaluate deep-learning approaches for model improvement.',
+            '<b>AI-assisted support:</b> Support the development of application-specific agents and an agent orchestrator for chat support across multiple applications.',
+            '<b>Test automation:</b> Use Playwright with MCP-enabled workflows to automate testing, reduce manual testing effort and execution time, and improve test quality.',
         ], styles),
-        *role('Senior Software Engineer / Full-Stack Engineer', 'alfaTKG', '2018 - 2022', [
-            'Gathered requirements, prepared specifications, planned designs, managed cloud servers and databases, and delegated team and project tasks.',
-            'Developed REST APIs and full-stack applications; managed AWS EC2, RDS, CloudSearch, and load balancing.',
-            '<b>GAIA Quote and alfaDOCK.</b> Built quotation and cloud document workflows for small manufacturers. Developed a TypeScript/Node.js/Express quotation API using 3D JSON data from S3, a MySQL-backed report scheduler, and an IIS-hosted C# thumbnail service storing outputs in S3.',
-            '<b>GAIA Smart Quote (GSQ).</b> Collected customer sales-order data, filtered and preprocessed inputs and outputs, trained Python/scikit-learn regression models, evaluated them using mean squared error (MSE), and developed the Angular frontend.',
-            'Applied SOLID principles and design patterns; worked with reflection-based plugins, dependency injection, middleware, validation, logging, Swagger, Angular lazy loading, and RxJS in Agile delivery.',
-            'Built machine-learning workflows for sheet-metal quotation and machine-cycle-time prediction.',
-            'Applied HOG feature extraction, YOLO-based visual detection, and regression approaches including DecisionTreeRegressor to manufacturing data.',
-            'Designed modular quotation engines for laser cutting, punching, bending, welding, cost estimation, and BOM generation.',
-            'Developed core architecture for AlfaDock and PTE, and mentored engineers on testing and design practices.'
+        *role('Senior Full-Stack Developer', 'alfaTKG', '2018 - 2022', [
+            '<b>Projects:</b> GPN Scheduler and Inspection. <b>Technologies:</b> Angular, React, .NET Core, Node.js, SQL Server, MySQL, and AWS.',
+            '<b>Backend and cloud development:</b> Developed backend APIs and managed AWS EC2, RDS, CloudSearch, Elastic Load Balancing (ELB), and S3 resources.',
+            '<b>Application design:</b> Planned Angular components, API controllers, business logic, and SQL table structures to support maintainable application development.',
+            '<b>Production support:</b> Investigated and resolved application-server and database issues in production.',
+            '<b>International client engagement:</b> Completed a three-month assignment in Japan, coordinated with clients, supported the company booth at the MF-Tokyo manufacturing exhibition, and installed software at three client sites in different locations.',
+            '<b>Team coordination and deployment:</b> Coordinated developers and tracked delivery progress. Developed a shared deployment system for use across projects.',
         ], styles),
         *role('Software Development Engineer', 'alfaTKG', 'Aug 2015 - 2018', [
-            'Developed Angular frontend applications and .NET desktop applications using WPF; supported C++ wrapper libraries for integration into C# applications.',
-            'Developed and maintained applications and REST APIs; fixed bugs, provided support, managed Git workflows and server deployments, and reported daily progress.'
+            '<b>alfaDOCK:</b> Developed Angular UI features and contributed to .NET Core API development, SQL Server queries, and database access.',
+            '<b>Plugin architecture:</b> Contributed to a design in which the alfaDOCK .NET Core API acted as the master API and other project APIs operated as plugins. Used Observer/subscriber patterns to communicate notifications and actions from the master API to plugins.',
+            '<b>Engineering practices:</b> Applied object-oriented programming and software design principles when developing application features.',
+            '<b>Socket App:</b> Developed a WPF desktop application with SQLite to configure different socket connections and collect data from multiple sources at client sites.',
         ], styles),
-        *role('Software Engineer', 'Sirpi', 'Oct 2013 - Aug 2015', [
-            'Developed Windows desktop applications using .NET Framework and worked on Android app development; prepared test cases and performed testing.'
+        *role('Software Engineer', 'Sirpi Software Pvt. Ltd.', 'Oct 2013 - Aug 2015', [
+            '<b>SPCAD:</b> Implemented small application features, fixed defects, and worked on C++ wrapper classes for integration with .NET applications. Reported progress and issues to a senior developer.',
+            '<b>Grocery Delivery App (Java):</b> Developed UI features for customer and delivery-agent Android applications, integrated Google Maps, and resolved UI defects.',
+            '<b>Android game development:</b> Implemented functions for updating and tracking object positions and contributed to game-loop logic.',
         ], styles),
-    ], styles)
-
-    story += section('Selected Engineering Highlights', [
-        paragraph('<b>Manufacturing quotation intelligence.</b> Automated sheet-metal quotation workflows with CAD-driven inputs, nesting calculations, laser-cutting paths, bending operations, and machine-runtime estimation.', styles['body']), Spacer(1, 2 * mm),
-        paragraph('<b>AI agents and RAG.</b> Designed specialized quotation, production scheduling, and machine-data agents coordinated through an orchestrator using Qdrant retrieval and LLM reasoning.', styles['body']), Spacer(1, 2 * mm),
-        paragraph('<b>Resilient enterprise systems.</b> Implemented YARP API gateway patterns, JWT authentication, Redis caching, rate limiting, and decoupled worker-based processing.', styles['body']),
     ], styles)
 
     story += section('Education', [paragraph('<b>B.E. in Electronics and Communication Engineering</b> | 2009 - 2013<br/>Hidusthan College, Coimbatore, Anna University | GPA: 8.4', styles['body'])], styles)
